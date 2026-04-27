@@ -4,243 +4,196 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#3E2723">
+    <title>خالد الصيني - إدارة حسابات</title>
     
-    <title>محلات الصيني - إدارة العملاء</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root {
-            --primary: #3E2723; /* بني غامق */
-            --primary-light: #5D4037; 
-            --bg-main: #F5F5DC; /* كريمي */
-            --bg-card: #ffffff; /* أبيض */
-            --text-dark: #000000; 
-            --text-gray: #4E342E; 
-            --border: #D7CCC8; 
-            --radius: 12px;
-            --shadow: 0 4px 12px rgba(62, 39, 35, 0.1);
+            --primary: #3E2723; /* بني داكن */
+            --primary-btn: #4E342E; /* بني أفتح للزراير */
+            --bg-body: #F9F6F0; /* كريمي فاتح جداً مريح للعين */
+            --card-bg: #FFFFFF;
+            --text-dark: #222222;
+            --text-gray: #666666;
+            --border: #E0E0E0;
+            --danger: #D32F2F;
+            --success: #2E7D32;
         }
 
-        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; }
-        body { margin: 0; padding: 0; background: var(--bg-main); color: var(--text-dark); -webkit-tap-highlight-color: transparent; }
-        
-        /* --- الهيدر --- */
-        .header { background: var(--primary); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
-        .header-title { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 22px; color: #fff; margin: 0 auto; }
-        .header-actions button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 8px; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        
-        /* --- شريط الإجمالي --- */
-        .total-banner { background: #5D4037; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; }
-        .total-banner span { font-size: 24px; font-weight: 900; color: #F5F5DC; }
+        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; padding: 0; background: var(--bg-body); color: var(--text-dark); overflow-x: hidden; }
 
-        /* --- الحاوية --- */
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
+        /* ================= الهيدر العام ================= */
+        .app-header { background: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header-title { font-size: 20px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+        .header-title svg { width: 24px; fill: white; }
+        .header-icons { display: flex; gap: 15px; font-size: 20px; cursor: pointer; }
 
-        /* --- الكروت والبحث --- */
-        .action-card { background: var(--bg-card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
-        .search-box input { width: 100%; padding: 12px 15px; border: 2px solid var(--border); border-radius: 8px; font-size: 15px; background: #FFFBF0; }
+        /* ================= الشاشة الرئيسية ================= */
+        #main-view { display: block; padding-bottom: 50px; }
+        .total-banner { background: var(--primary-btn); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: bold; }
+        .total-banner .amount { font-size: 24px; font-weight: 900; color: #FFF8DC; direction: ltr; }
+
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+
+        .search-card { background: var(--card-bg); padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid var(--border); }
+        .search-input { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; background: #FAFAFA; margin-bottom: 15px; }
         
-        .add-client-form input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; margin-bottom: 10px; background: #FFFBF0; }
-        .btn-add-user { background: var(--primary); color: white; border: none; border-radius: 8px; width: 60px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px;}
+        .add-client-box { display: flex; flex-direction: column; gap: 10px; }
+        .add-client-box input { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; background: #FAFAFA; }
+        .add-row { display: flex; gap: 10px; }
+        .btn-add-client { background: var(--text-dark); color: white; border: none; border-radius: 8px; width: 60px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 24px; }
 
-        /* --- قائمة العملاء --- */
-        .client-item { background: var(--bg-card); border-radius: var(--radius); padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); margin-bottom: 12px; border-right: 6px solid var(--primary); cursor: pointer;}
-        .cli-info h3 { margin: 0; font-size: 19px; font-weight: 900; color: var(--primary); }
-        .cli-balance { font-size: 22px; font-weight: 900; color: var(--text-dark); background: #EFEBE9; padding: 5px 15px; border-radius: 8px; }
+        .client-card { background: var(--card-bg); border-radius: 12px; padding: 15px 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--border); cursor: pointer; }
+        .client-info h3 { margin: 0 0 5px 0; font-size: 18px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+        .client-info p { margin: 0; font-size: 13px; color: var(--text-gray); }
+        .client-balance { font-size: 20px; font-weight: 900; direction: ltr; }
 
-        /* ================= شاشة التفاصيل (البريميوم) ================= */
-        #client-details-view { display: none; background: var(--bg-main); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: hidden; }
+        /* ================= شاشة تفاصيل العميل ================= */
+        #details-view { display: none; padding-bottom: 100px; }
+        .details-header { background: #f1f1f1; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 60px; z-index: 99;}
+        .details-header .name { font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 8px;}
+        .details-actions { display: flex; gap: 10px; }
+        .action-btn { background: white; border: 1px solid var(--border); width: 35px; height: 35px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+        /* تطابق تام مع صورة 90757 (تصميم الإدخال) */
+        .add-item-card { background: var(--card-bg); border-radius: 12px; padding: 20px; margin: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        .add-item-card h4 { margin: 0 0 15px 0; font-size: 16px; color: var(--text-gray); display: flex; align-items: center; gap: 5px; }
         
-        .cd-header { background: var(--primary); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: #fff; position: relative; z-index: 201;}
-        .cd-header-actions { display: flex; gap: 8px; }
-        .cd-header-actions button { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; color: white;}
-        .btn-home { background: none; border: none; font-size: 22px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
+        .inputs-group { display: flex; gap: 8px; margin-bottom: 15px; }
+        .inputs-group input { padding: 12px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #FAFAFA; font-weight: 600; text-align: center; }
+        .input-item { flex: 2.5; text-align: right !important; } /* الصنف أكبر حاجة */
+        .input-qty { flex: 1; } /* العدد */
+        .input-price { flex: 1.5; } /* السعر */
 
-        .cd-body { height: calc(100vh - 65px); overflow: hidden; display: flex; flex-direction: column; }
-        
-        /* قسم الإضافة الاحترافي */
-        .add-section { background: var(--bg-card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin: 15px; border: 1px solid var(--border); flex-shrink: 0; }
-        
-        .input-group { position: relative; margin-bottom: 10px; display: flex; align-items: center; }
-        .input-group span { position: absolute; right: 12px; font-size: 18px; color: var(--text-gray); }
-        .input-group input { width: 100%; padding: 12px 40px 12px 12px; border: 1.5px solid var(--border); border-radius: 8px; background: #FFFBF0; font-size: 14px; font-weight: 700; color: var(--text-dark); transition: 0.3s; }
-        .input-group input:focus { border-color: var(--primary); background: #fff; }
-        
-        .row-inputs { display: flex; gap: 10px; margin-bottom: 10px; }
-        .row-inputs .input-group { margin-bottom: 0; flex: 1; }
+        .btn-save-item { background: var(--primary-btn); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 900; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 20px; }
 
-        .btn-save-item { background: var(--primary); color: white; width: 100%; border: none; padding: 12px; border-radius: 8px; font-weight: 900; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
-        
-        .pay-section { display: flex; gap: 10px; margin-top: 15px; border-top: 2px dashed var(--border); padding-top: 15px;}
-        .pay-section .input-group { margin-bottom: 0; flex: 1; }
-        .btn-save-pay { background: #1B5E20; color: white; border: none; border-radius: 8px; width: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
+        .pay-group { display: flex; gap: 10px; border-top: 1px dashed var(--border); padding-top: 20px; }
+        .btn-pay { background: #111; color: white; border: none; border-radius: 8px; width: 70px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 22px; }
+        .input-pay { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; text-align: right; background: #FAFAFA; }
 
-        /* منطقة السكرول */
-        .tx-scroll-area { flex-grow: 1; overflow-y: auto; padding: 0 15px 120px 15px; }
-        .tx-scroll-area::-webkit-scrollbar { width: 6px; }
-        .tx-scroll-area::-webkit-scrollbar-thumb { background: #D7CCC8; border-radius: 10px; }
-        
-        .tx-item { background: var(--bg-card); border-radius: var(--radius); padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 5px solid #ccc; }
-        .tx-item.is-debt { border-right-color: var(--primary); }
-        .tx-item.is-pay { border-right-color: #1B5E20; }
-        
-        /* كبسولة الإجمالي */
-        .floating-total-pill { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(62, 39, 35, 0.4); border: 2px solid #D7CCC8; z-index: 205; white-space: nowrap; }
-        .ft-label { font-size: 14px; font-weight: 800; color: #D7CCC8; }
-        .ft-value { font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 5px; direction: ltr; }
+        /* العمليات */
+        .tx-list { padding: 0 15px; display: flex; flex-direction: column; gap: 12px; }
+        .tx-card { background: var(--card-bg); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 5px rgba(0,0,0,0.05); border-right: 5px solid #ccc; }
+        .tx-card.debt { border-right-color: var(--danger); }
+        .tx-card.pay { border-right-color: var(--success); }
+        .tx-info { text-align: right; }
+        .tx-info h5 { margin: 0 0 5px 0; font-size: 16px; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 5px; }
+        .tx-info p { margin: 0; font-size: 12px; color: var(--text-gray); }
+        .tx-amount { font-size: 18px; font-weight: 900; direction: ltr; display: flex; flex-direction: column; align-items: center; gap: 5px;}
+        .btn-del-tx { background: #ffebee; color: #d32f2f; border: none; width: 28px; height: 28px; border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 14px;}
 
-        /* ================= مكونات بريميوم إضافية ================= */
-        .toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; font-size: 14px; font-weight: bold; transform: translateX(-50%); opacity: 0; transition: 0.3s; }
-        .toast.show { visibility: visible; opacity: 1; bottom: 90px; }
-        .toast.success { background-color: #1B5E20; border: 2px solid #4CAF50; }
-        .toast.error { background-color: #B71C1C; border: 2px solid #F44336; }
-
-        /* نافذة تأكيد مخصصة (Custom Confirm Modal) */
-        .confirm-modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:4000; backdrop-filter:blur(2px); }
-        .confirm-box { background: #fff; padding: 25px; border-radius: 15px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .confirm-box h3 { margin: 0 0 10px 0; color: var(--primary); }
-        .confirm-box p { color: #555; margin-bottom: 20px; font-weight: 600; font-size: 15px;}
-        .confirm-actions { display: flex; gap: 10px; justify-content: center; }
-        .confirm-actions button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
-        .btn-cancel-modal { background: #eee; color: #333; }
-        .btn-confirm-modal { background: #B71C1C; color: white; }
-
-        .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-main); z-index: 4000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { width: 50px; height: 50px; border: 5px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* الكبسولة العائمة (الإجمالي) */
+        .floating-pill { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--bg-body); border: 2px solid var(--primary); padding: 10px 25px; border-radius: 50px; display: flex; align-items: center; gap: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 999; white-space: nowrap; }
+        .pill-text { font-size: 16px; font-weight: 800; color: var(--text-dark); }
+        .pill-amount { font-size: 24px; font-weight: 900; color: var(--text-dark); direction: ltr; }
 
         /* ================= شاشة العرض المسبق للفاتورة ================= */
-        .preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; display: none; flex-direction: column; }
-        .preview-toolbar { background: var(--primary); padding: 15px; display: flex; justify-content: center; gap: 15px; }
-        .preview-toolbar button { padding: 10px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .btn-dl { background: #fff; color: var(--primary); }
-        .btn-close { background: #B71C1C; color: white; }
-        .preview-content { flex: 1; overflow: auto; padding: 20px; display: flex; justify-content: center;}
+        .preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; flex-direction: column; }
+        .preview-header { background: var(--primary); padding: 15px; display: flex; justify-content: center; gap: 10px; }
+        .preview-header button { padding: 10px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .preview-content { flex: 1; overflow-y: auto; padding: 20px; display: flex; justify-content: center; }
         
-        /* الفاتورة الداخلي */
-        .pdf-page { padding: 40px; background: white; color: black; font-family: 'Cairo', sans-serif; direction: rtl; width: 800px; max-width: 800px; margin: 0 auto; border: 1px solid #ccc;}
-        .pdf-header { text-align: center; border-bottom: 3px solid #3E2723; padding-bottom: 15px; margin-bottom: 20px; }
-        .pdf-header h1 { margin: 0; font-size: 32px; color: #3E2723; font-weight: 900;}
-        .pdf-header p { margin: 5px 0 0 0; font-size: 16px; color: #5D4037;}
-        /* استخدام جدول لمعلومات الفاتورة عشان html2pdf ميبوظش الـ RTL */
-        .pdf-meta-table { width: 100%; margin-bottom: 20px; border: none; background: #F5F5DC; padding: 10px; border-radius: 8px;}
-        .pdf-meta-table td { border: none; padding: 10px; font-weight: bold; font-size: 16px;}
+        /* الفاتورة للطباعة */
+        .pdf-container { background: white; width: 800px; max-width: 100%; padding: 40px; color: black; direction: rtl; border-radius: 4px;}
+        .pdf-title { text-align: center; border-bottom: 2px solid black; padding-bottom: 10px; margin-bottom: 20px; }
+        .pdf-title h1 { margin: 0; font-size: 32px; font-weight: 900; }
         
-        .pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; border: 2px solid #3E2723; }
-        .pdf-table th { background: #3E2723; color: #fff; padding: 12px; font-size: 15px; border: 1px solid #3E2723;}
-        .pdf-table td { padding: 10px; border: 1px solid #D7CCC8; font-size: 14px; font-weight: 700;}
-        .pdf-table tr:nth-child(even) { background: #FAFAFA; }
-        .pdf-total-box { border: 2px solid #3E2723; background: #F5F5DC; padding: 15px; font-size: 22px; font-weight: 900; color: #3E2723; display: inline-block; border-radius: 8px;}
+        .pdf-meta-table { width: 100%; margin-bottom: 20px; font-size: 16px; font-weight: bold; }
+        .pdf-meta-table td { padding: 5px; }
+        
+        .pdf-data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .pdf-data-table th, .pdf-data-table td { border: 1px solid #ccc; padding: 12px; text-align: center; }
+        .pdf-data-table th { background: #f5f5f5; font-size: 15px; }
+        .pdf-data-table td { font-weight: 700; font-size: 14px; }
+        .pdf-data-table td:first-child { text-align: right; } /* البيان */
+
+        .pdf-total-box { border: 2px solid black; padding: 15px; display: inline-block; font-size: 20px; font-weight: 900; float: right; }
+
+        /* Toast */
+        .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 12px 20px; border-radius: 8px; font-weight: bold; z-index: 3000; opacity: 0; transition: 0.3s; pointer-events: none;}
+        .toast.show { opacity: 1; bottom: 110px; }
     </style>
 </head>
 <body>
 
-    <div id="loader" class="loader-overlay"><div class="spinner"></div></div>
     <div id="toast" class="toast"></div>
 
-    <div id="confirm-modal" class="confirm-modal-overlay">
-        <div class="confirm-box">
-            <h3 id="confirm-title">تأكيد الحذف</h3>
-            <p id="confirm-msg">هل أنت متأكد من مسح هذه البيانات؟</p>
-            <div class="confirm-actions">
-                <button class="btn-cancel-modal" onclick="closeConfirmModal()">إلغاء</button>
-                <button class="btn-confirm-modal" id="confirm-btn">نعم، امسح</button>
-            </div>
+    <div class="app-header">
+        <div class="header-icons">
+            <span onclick="window.location.reload()">🔄</span>
+        </div>
+        <div class="header-title">
+            خالد الصيني
+            <svg viewBox="0 0 24 24"><path d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-4 20c-.83 0-1.5-.67-1.5-1.5S11.17 18 12 18s1.5.67 1.5 1.5S12.83 21 12 21zm3.5-4H8.5V4h7v13z"/></svg>
         </div>
     </div>
 
     <div id="main-view">
-        <div class="header">
-            <div class="header-actions">
-                <button onclick="exportToExcel()" title="تصدير إكسيل">📊</button>
-            </div>
-            <div class="header-title">خالد الصيني</div>
-            <div style="width: 38px; font-size: 22px; text-align: left; line-height: 38px;">🏠</div>
-        </div>
-
         <div class="total-banner">
             <div>إجمالي ديون السوق:</div>
-            <div dir="ltr"><span id="global-total">0</span> ج.م</div>
+            <div class="amount"><span id="global-total">0</span> ج.م</div>
         </div>
 
         <div class="container">
-            <div class="action-card">
-                <div class="search-box" style="margin-bottom: 15px;">
-                    <input type="text" id="searchInput" placeholder="🔍 ابحث عن اسم العميل..." oninput="filterClients()">
-                </div>
+            <div class="search-card">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 ابحث عن اسم العميل..." oninput="filterClients()">
                 
-                <div class="add-client-form">
-                    <input type="text" id="new-client-name" placeholder="👤 اسم العميل (مطلوب)">
-                    <div style="display: flex; gap: 10px;">
-                        <input type="tel" id="new-client-phone" placeholder="📞 رقم التليفون (اختياري)">
-                        <button class="btn-add-user" onclick="addClient()">➕</button>
+                <div class="add-client-box">
+                    <input type="text" id="new-client-name" placeholder="👤 اسم العميل الجديد (مطلوب)">
+                    <div class="add-row">
+                        <input type="tel" id="new-client-phone" placeholder="📞 رقم الموبايل (اختياري)">
+                        <button class="btn-add-client" onclick="addClient()">➕</button>
                     </div>
                 </div>
             </div>
 
-            <div class="client-list" id="client-list"></div>
+            <div id="client-list"></div>
         </div>
     </div>
 
-    <div id="client-details-view">
-        <div class="cd-header">
-            <div class="cd-header-actions">
-                <button onclick="previewInvoice()" title="الفاتورة">🖨️</button>
-                <button onclick="sendWhatsApp()" title="واتساب">💬</button>
-                <button onclick="confirmDeleteClient()" title="حذف العميل">🗑️</button>
+    <div id="details-view">
+        <div class="details-header">
+            <div class="details-actions">
+                <button class="action-btn" onclick="previewInvoice()" title="طباعة الفاتورة">🖨️</button>
+                <button class="action-btn" onclick="sendWhatsApp()" title="إرسال واتساب">💬</button>
+                <button class="action-btn" onclick="deleteClient()" style="color:red;" title="حذف العميل">🗑️</button>
             </div>
-            <div style="font-size: 20px; font-weight: 900; color: #fff;" id="cd-name">العميل</div>
-            <button class="btn-home" onclick="closeClientDetails()" title="الرئيسية">🏠</button>
+            <div class="name" id="cd-name">اسم العميل 👤</div>
+            <button class="action-btn" onclick="closeDetails()" style="background:var(--primary); color:white; border:none;">🏠</button>
         </div>
 
-        <div class="cd-body">
-            <div class="add-section">
-                <div class="input-group">
-                    <span>🏷️</span>
-                    <input type="text" id="item-desc" placeholder="اسم الصنف (شاشة، جراب، صيانة...)">
+        <div class="container" style="padding-top: 0;">
+            <div class="add-item-card">
+                <h4>🛍️ إضافة صنف مديونية</h4>
+                <div class="inputs-group">
+                    <input type="text" id="item-desc" class="input-item" placeholder="الصنف (مثال: كوتش)">
+                    <input type="number" id="item-qty" class="input-qty" placeholder="العدد" value="1">
+                    <input type="number" id="item-price" class="input-price" placeholder="السعر">
                 </div>
-                
-                <div class="row-inputs">
-                    <div class="input-group">
-                        <span>📦</span>
-                        <input type="number" id="item-qty" placeholder="الكمية" value="1">
-                    </div>
-                    <div class="input-group">
-                        <span>💰</span>
-                        <input type="number" id="item-price" placeholder="سعر القطعة">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <span>📅</span>
-                    <input type="date" id="item-date" title="تاريخ العملية">
-                </div>
+                <button class="btn-save-item" onclick="saveItem()">💾 حفظ في الحساب</button>
 
-                <button class="btn-save-item" onclick="saveItem()">💾 تسجيــل المديونيــة</button>
-
-                <div class="pay-section">
-                    <div class="input-group">
-                        <span>💵</span>
-                        <input type="number" id="pay-amount" placeholder="مبلغ سداد نقدية">
-                    </div>
-                    <button class="btn-save-pay" onclick="savePayment()">✔</button>
+                <div class="pay-group">
+                    <button class="btn-pay" onclick="savePayment()">💵</button>
+                    <input type="number" id="pay-amount" class="input-pay" placeholder="مبلغ سداد نقدية">
                 </div>
             </div>
 
-            <div class="tx-scroll-area" id="cd-tx-list"></div>
+            <div class="tx-list" id="cd-tx-list"></div>
         </div>
 
-        <div class="floating-total-pill">
-            <span class="ft-label">المطلوب سداده:</span>
-            <span class="ft-value"><span id="cd-total-due">0</span> <span class="ft-currency">ج.م</span></span>
+        <div class="floating-pill">
+            <div class="pill-text">المطلوب سداده:</div>
+            <div class="pill-amount"><span id="cd-total-due">0</span> ج.م</div>
         </div>
     </div>
 
     <div id="preview-modal" class="preview-modal">
-        <div class="preview-toolbar">
-            <button class="btn-dl" onclick="downloadPDF()">📥 تحميل PDF</button>
-            <button class="btn-close" onclick="closePreview()">❌ إغلاق</button>
+        <div class="preview-header">
+            <button onclick="downloadPDF()" style="background:white; color:var(--primary);">📥 تحميل الفاتورة (PDF)</button>
+            <button onclick="closePreview()" style="background:#d32f2f; color:white;">❌ إغلاق</button>
         </div>
         <div class="preview-content" id="preview-content-box"></div>
     </div>
@@ -249,6 +202,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        // إعدادات الفايربيز بتاعتك 100% شغالة
         const firebaseConfig = {
             apiKey: "AIzaSyAUj_rV2wOr34kfzF7wj3j-33rq6KD2gTg",
             authDomain: "khaled-eb11f.firebaseapp.com",
@@ -260,59 +214,35 @@
         };
 
         let db, appData = {}, currentClientId = null;
-        let isInitialLoad = true;
-        let confirmAction = null; // لتخزين الدالة اللي هتتنفذ بعد التأكيد
 
         window.onload = function() {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             db = firebase.database();
-            db.ref('khaled_sini_clients_v2').on('value', snap => {
+            
+            // قراءة البيانات لحظياً
+            db.ref('khaled_sini_db').on('value', snap => {
                 appData = snap.val() || {};
                 renderDashboard();
                 if(currentClientId && appData[currentClientId]) renderClientDetails(currentClientId);
-                
-                if(isInitialLoad) {
-                    document.getElementById('loader').style.display = 'none';
-                    isInitialLoad = false;
-                }
             });
-            // ضبط تاريخ اليوم كافتراضي
-            document.getElementById('item-date').valueAsDate = new Date();
         };
 
-        // --- دوال مساعدة (Vibration + Toast) ---
-        function vibrate() { if (navigator.vibrate) navigator.vibrate(50); }
-        function showToast(msg, type = 'success') {
-            vibrate();
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.className = `toast show ${type}`;
-            setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3000);
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
         }
-
-        // --- Custom Confirm Modal ---
-        function openConfirmModal(title, msg, onConfirm) {
-            vibrate();
-            document.getElementById('confirm-title').innerText = title;
-            document.getElementById('confirm-msg').innerText = msg;
-            document.getElementById('confirm-modal').style.display = 'flex';
-            confirmAction = onConfirm;
-        }
-        function closeConfirmModal() { document.getElementById('confirm-modal').style.display = 'none'; confirmAction = null; }
-        document.getElementById('confirm-btn').onclick = function() {
-            if(confirmAction) confirmAction();
-            closeConfirmModal();
-        };
 
         function calcBalance(txs) {
-            let total = 0;
+            let t = 0;
             if(txs) Object.values(txs).forEach(tx => {
-                if(tx.type === 'item') total += (Number(tx.price) * Number(tx.qty));
-                else total -= Number(tx.amount);
+                if(tx.type === 'item') t += (Number(tx.price) * Number(tx.qty));
+                else t -= Number(tx.amount);
             });
-            return total;
+            return t;
         }
 
+        // --- الشاشة الرئيسية ---
         function renderDashboard() {
             const list = document.getElementById('client-list');
             list.innerHTML = '';
@@ -324,14 +254,14 @@
                 globalTotal += bal;
                 
                 const div = document.createElement('div');
-                div.className = 'client-item';
-                div.onclick = () => openClientDetails(uid);
+                div.className = 'client-card';
+                div.onclick = () => openDetails(uid);
                 div.innerHTML = `
-                    <div class="cli-balance" dir="ltr">${bal} ج</div>
-                    <div class="cli-info">
-                        <h3>${client.name}</h3>
-                        <div style="font-size:13px; color:var(--text-gray); margin-top:3px;">${client.phone || 'بدون رقم'}</div>
+                    <div class="client-info">
+                        <h3>👤 ${client.name}</h3>
+                        <p>📱 ${client.phone || 'بدون رقم مسجل'}</p>
                     </div>
+                    <div class="client-balance">${bal} ج.م</div>
                 `;
                 list.appendChild(div);
             });
@@ -341,58 +271,75 @@
         function addClient() {
             const name = document.getElementById('new-client-name').value.trim();
             const phone = document.getElementById('new-client-phone').value.trim();
-            if(!name) return showToast("⚠️ الرجاء إدخال اسم العميل!", "error");
+            if(!name) return showToast("⚠️ أكتب اسم العميل الأول!");
             
-            db.ref('khaled_sini_clients_v2').push().set({
-                name: name, phone: phone, created_at: Date.now()
-            }).then(() => {
-                showToast("تم إضافة العميل بنجاح ✅");
-                document.getElementById('new-client-name').value = '';
-                document.getElementById('new-client-phone').value = '';
+            db.ref('khaled_sini_db').push().set({ name: name, phone: phone, created_at: Date.now() })
+              .then(() => {
+                  showToast("تم إضافة العميل بنجاح ✅");
+                  document.getElementById('new-client-name').value = '';
+                  document.getElementById('new-client-phone').value = '';
+              });
+        }
+
+        function filterClients() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.client-card').forEach(el => {
+                el.style.display = el.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
             });
         }
 
-        function openClientDetails(uid) {
+        // --- شاشة التفاصيل ---
+        function openDetails(uid) {
             currentClientId = uid;
             document.getElementById('main-view').style.display = 'none';
-            document.getElementById('client-details-view').style.display = 'block';
-            document.getElementById('item-date').valueAsDate = new Date(); // ريست التاريخ لليوم
+            document.getElementById('details-view').style.display = 'block';
+            window.scrollTo(0,0);
             renderClientDetails(uid);
         }
 
-        function closeClientDetails() {
+        function closeDetails() {
             currentClientId = null;
-            document.getElementById('client-details-view').style.display = 'none';
+            document.getElementById('details-view').style.display = 'none';
             document.getElementById('main-view').style.display = 'block';
         }
 
         function renderClientDetails(uid) {
             const client = appData[uid];
-            document.getElementById('cd-name').innerText = client.name;
+            document.getElementById('cd-name').innerHTML = `${client.name} 👤`;
             const txList = document.getElementById('cd-tx-list');
             txList.innerHTML = '';
             
             if(client.transactions) {
-                // ترتيب العمليات تنازلي (الأحدث فوق) بناء على الـ timestamp اللي اتسجل بيه (بما في ذلك التاريخ المخصص)
-                const sortedTxs = Object.entries(client.transactions).sort((a, b) => b[1].timestamp - a[1].timestamp);
-                
-                sortedTxs.forEach(([tid, tx]) => {
+                // ترتيب العمليات الأحدث فوق
+                const txs = Object.entries(client.transactions).sort((a,b) => b[1].timestamp - a[1].timestamp);
+                txs.forEach(([tid, tx]) => {
                     const div = document.createElement('div');
-                    div.className = `tx-item ${tx.type === 'item' ? 'is-debt' : 'is-pay'}`;
-                    const dateStr = new Date(tx.timestamp).toLocaleDateString('ar-EG');
+                    div.className = `tx-card ${tx.type === 'item' ? 'debt' : 'pay'}`;
+                    const dStr = new Date(tx.timestamp).toLocaleDateString('ar-EG');
                     
-                    div.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <button onclick="confirmDeleteTx('${uid}','${tid}')" style="background:none; border:none; color:#B71C1C; cursor:pointer; font-size:16px; padding:5px;">✖</button>
-                            <div style="font-weight:900; font-size:17px; color:${tx.type === 'item' ? 'var(--primary)' : '#1B5E20'}" dir="ltr">
-                                ${tx.type === 'item' ? (tx.price*tx.qty) : '- '+tx.amount} ج
+                    if(tx.type === 'item') {
+                        div.innerHTML = `
+                            <div class="tx-info">
+                                <h5>🛍️ ${tx.desc}</h5>
+                                <p>🗓️ ${dStr} • السعر: ${tx.price} • العدد: ${tx.qty}</p>
                             </div>
-                        </div>
-                        <div style="text-align:right; max-width: 60%;">
-                            <div style="font-weight:bold; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tx.type === 'item' ? tx.desc : 'سداد نقدية ✅'}</div>
-                            <div style="font-size:12px; color:#777; margin-top:2px;" dir="ltr">${dateStr}</div>
-                        </div>
-                    `;
+                            <div class="tx-amount" style="color:var(--danger);">
+                                ${tx.price * tx.qty} ج
+                                <button class="btn-del-tx" onclick="deleteTx('${uid}','${tid}')">✖</button>
+                            </div>
+                        `;
+                    } else {
+                        div.innerHTML = `
+                            <div class="tx-info">
+                                <h5>⬇️ دفعة مسددة</h5>
+                                <p>🗓️ ${dStr}</p>
+                            </div>
+                            <div class="tx-amount" style="color:var(--success);">
+                                ${tx.amount} ج -
+                                <button class="btn-del-tx" onclick="deleteTx('${uid}','${tid}')">✖</button>
+                            </div>
+                        `;
+                    }
                     txList.appendChild(div);
                 });
             }
@@ -403,160 +350,123 @@
             const d = document.getElementById('item-desc').value.trim();
             const q = document.getElementById('item-qty').value;
             const p = document.getElementById('item-price').value;
-            const dateVal = document.getElementById('item-date').value;
+            if(!d || !q || !p) return showToast("⚠️ كمل بيانات الصنف!");
             
-            if(!d || !q || !p) return showToast("⚠️ برجاء استكمال بيانات الصنف!", "error");
-            
-            // استخدام التاريخ المخصص أو تاريخ اليوم لو المربع فاضي
-            let txTime = dateVal ? new Date(dateVal).getTime() : Date.now();
-            // لو اليوزر اختار تاريخ قديم، هنضيفله الوقت الحالي كساعات عشان الترتيب يكون دقيق
-            if(dateVal) { const dObj = new Date(dateVal); const now = new Date(); dObj.setHours(now.getHours(), now.getMinutes(), now.getSeconds()); txTime = dObj.getTime(); }
-
-            db.ref(`khaled_sini_clients_v2/${currentClientId}/transactions`).push().set({ 
-                type:'item', desc:d, qty:q, price:p, timestamp: txTime
+            db.ref(`khaled_sini_db/${currentClientId}/transactions`).push().set({ 
+                type:'item', desc:d, qty:q, price:p, timestamp:Date.now() 
             }).then(() => {
-                showToast("تم تسجيل المديونية ✅");
+                showToast("تم الحفظ ✅");
                 document.getElementById('item-desc').value=''; document.getElementById('item-price').value=''; document.getElementById('item-qty').value='1';
             });
         }
 
         function savePayment() {
             const a = document.getElementById('pay-amount').value;
-            const dateVal = document.getElementById('item-date').value;
-            if(!a || a<=0) return showToast("⚠️ أدخل مبلغ السداد بشكل صحيح!", "error");
+            if(!a || a<=0) return showToast("⚠️ أكتب المبلغ صح!");
             
-            let txTime = dateVal ? new Date(dateVal).getTime() : Date.now();
-            if(dateVal) { const dObj = new Date(dateVal); const now = new Date(); dObj.setHours(now.getHours(), now.getMinutes(), now.getSeconds()); txTime = dObj.getTime(); }
-
-            db.ref(`khaled_sini_clients_v2/${currentClientId}/transactions`).push().set({ 
-                type:'pay', amount:a, timestamp: txTime 
+            db.ref(`khaled_sini_db/${currentClientId}/transactions`).push().set({ 
+                type:'pay', amount:a, timestamp:Date.now() 
             }).then(() => {
-                showToast("تم تسجيل الدفعة ✅");
+                showToast("تم سداد الدفعة ✅");
                 document.getElementById('pay-amount').value='';
             });
         }
 
-        function confirmDeleteTx(uid, tid) { 
-            openConfirmModal('مسح العملية', 'هل أنت متأكد من مسح هذه العملية من حساب العميل؟', () => {
-                db.ref(`khaled_sini_clients_v2/${uid}/transactions/${tid}`).remove(); 
-                showToast("تم المسح ✅");
-            });
-        }
-        function confirmDeleteClient() { 
-            openConfirmModal('حذف نهائي', 'تحذير: سيتم مسح العميل وكل حساباته نهائياً ولن يمكنك استرجاعها!', () => {
-                db.ref(`khaled_sini_clients_v2/${currentClientId}`).remove();
-                closeClientDetails();
-                showToast("تم حذف العميل بنجاح ✅");
-            });
+        function deleteTx(uid, tid) { if(confirm("مسح العملية دي؟")) db.ref(`khaled_sini_db/${uid}/transactions/${tid}`).remove(); }
+        function deleteClient() { 
+            if(confirm("تحذير: سيتم مسح العميل وكل حساباته!")) {
+                db.ref(`khaled_sini_db/${currentClientId}`).remove();
+                closeDetails();
+                showToast("تم الحذف بنجاح ✅");
+            }
         }
 
-        // --- تظبيط الواتساب (Regex احترافي) ---
+        // --- واتساب وفاتورة ---
         function sendWhatsApp() {
             if(!currentClientId) return;
             const client = appData[currentClientId];
-            const balance = calcBalance(client.transactions);
-            
+            const bal = calcBalance(client.transactions);
             let txDetails = "";
             if(client.transactions) {
-                // الفلترة من الأقدم للأحدث عشان الرسالة تتقري صح
-                const txs = Object.values(client.transactions).sort((a,b) => a.timestamp - b.timestamp);
-                txs.forEach(tx => {
-                    const txDate = new Date(tx.timestamp).toLocaleDateString('ar-EG');
-                    if(tx.type === 'item') {
-                        txDetails += `%0A▫️ ${txDate}: ${tx.desc} [${tx.qty}×${tx.price}] = ${tx.price * tx.qty} ج`;
-                    } else {
-                        txDetails += `%0A✅ ${txDate}: سداد نقدية (-${tx.amount} ج)`;
-                    }
+                const sorted = Object.values(client.transactions).sort((a,b) => a.timestamp - b.timestamp);
+                sorted.forEach(tx => {
+                    const d = new Date(tx.timestamp).toLocaleDateString('ar-EG');
+                    if(tx.type === 'item') txDetails += `%0A▫️ ${d}: ${tx.desc} [${tx.qty}×${tx.price}] = ${tx.price * tx.qty} ج`;
+                    else txDetails += `%0A✅ ${d}: سداد دفعة (-${tx.amount} ج)`;
                 });
             }
-
-            const msg = `أهلاً بك يا *${client.name}*،%0Aكشف حساب من محلات خالد الصيني.%0A%0A*تفاصيل الحساب:*${txDetails}%0A%0A================%0A*إجمالي المطلوب سداده:* ${balance} ج.م%0A================%0Aللاستفسار يرجى مراجعة المحل.`;
+            const msg = `أهلاً بك يا *${client.name}*،%0Aكشف حساب من محلات خالد الصيني.%0A%0A*التفاصيل:*${txDetails}%0A%0A================%0A*المطلوب سداده:* ${bal} ج.م%0A================`;
             
-            let url = '';
-            if(client.phone && client.phone.trim() !== "") {
-                let phone = client.phone.trim().replace(/\D/g, ''); // تنظيف من أي رموز
-                // لو الرقم بيبدأ بـ 0 و 11 رقم (موبايل مصري) نحط 2
-                if(phone.length === 11 && phone.startsWith('0')) {
-                    phone = '2' + phone; 
-                } 
-                // لو الرقم 10 أرقام (كتبه من غير 0) نحط 20
-                else if (phone.length === 10 && !phone.startsWith('20')) {
-                    phone = '20' + phone;
-                }
-                url = `https://api.whatsapp.com/send?phone=${phone}&text=${msg}`;
-            } else {
-                url = `https://api.whatsapp.com/send?text=${msg}`; 
-            }
+            let phone = client.phone ? client.phone.replace(/\D/g, '') : '';
+            if(phone.length === 11 && phone.startsWith('0')) phone = '2' + phone; 
+            else if(phone.length === 10) phone = '20' + phone;
+            
+            const url = phone ? `https://api.whatsapp.com/send?phone=${phone}&text=${msg}` : `https://api.whatsapp.com/send?text=${msg}`;
             window.open(url, '_blank');
         }
 
-        // --- الفاتورة الـ PDF الاحترافية (مضبوطة عربي 100%) ---
         function previewInvoice() {
             const client = appData[currentClientId];
             if(!client) return;
             let rows = '';
             
             if(client.transactions) {
-                // ترتيب للفاتورة
-                const txs = Object.values(client.transactions).sort((a,b) => a.timestamp - b.timestamp);
-                txs.forEach(tx => {
-                    const txDate = new Date(tx.timestamp).toLocaleDateString('ar-EG');
+                // الفاتورة بتطبع من القديم للجديد عشان التسلسل المحاسبي
+                const sorted = Object.values(client.transactions).sort((a,b) => a.timestamp - b.timestamp);
+                sorted.forEach(tx => {
+                    const d = new Date(tx.timestamp).toLocaleDateString('ar-EG');
                     if(tx.type === 'item') {
                         rows += `<tr>
-                            <td style="text-align:center; font-weight:bold;">${tx.price * tx.qty} ج</td>
-                            <td style="text-align:center;" dir="ltr">${tx.qty} x ${tx.price}</td>
-                            <td style="text-align:center;">${txDate}</td>
-                            <td><bdi>${tx.desc}</bdi></td>
+                            <td style="text-align:right;"><bdi>${tx.desc}</bdi></td>
+                            <td>${d}</td>
+                            <td dir="ltr">${tx.qty} x ${tx.price}</td>
+                            <td style="font-weight:bold;">${tx.price * tx.qty} ج</td>
                         </tr>`;
                     } else {
                         rows += `<tr>
-                            <td style="text-align:center; color:#1B5E20; font-weight:bold;" dir="ltr">${tx.amount} ج -</td>
-                            <td style="text-align:center;">-</td>
-                            <td style="text-align:center;">${txDate}</td>
-                            <td style="font-weight:bold;">سداد نقدية ✅</td>
+                            <td style="text-align:right; font-weight:bold;">سداد دفعة نقدية ✅</td>
+                            <td>${d}</td>
+                            <td>-</td>
+                            <td style="color:#1B5E20; font-weight:bold;" dir="ltr">${tx.amount} ج -</td>
                         </tr>`;
                     }
                 });
             }
 
-            // استخدام جدول (Table) في تصميم الـ Header عشان html2pdf ميعكسش العربي
+            // التصميم هنا بـ Table عشان الـ RTL يشتغل صح في הـ PDF وميعكسش الكلمات
             const html = `
-            <div class="pdf-page" id="printable-pdf">
-                <div class="pdf-header">
-                    <h1>خالد الصيني</h1>
-                    <p>كشف حساب عميل مفصل</p>
+            <div class="pdf-container" id="printable-pdf">
+                <div class="pdf-title">
+                    <h1>محلات خالد الصيني</h1>
+                    <p style="margin:5px 0; color:#555;">كشف حساب عميل مفصل</p>
                 </div>
                 
-                <div style="background: #F5F5DC; border-radius: 8px; padding: 10px; margin-bottom: 20px;">
-                    <table style="width: 100%; border: none; font-size: 16px; font-weight: bold;">
-                        <tr>
-                            <td style="text-align: right; border: none; padding: 5px;">
-                                العميل: <bdi>${client.name}</bdi><br>
-                                الهاتف: <bdi>${client.phone || 'غير مسجل'}</bdi>
-                            </td>
-                            <td style="text-align: left; border: none; padding: 5px; vertical-align: top;">
-                                تاريخ الكشف: ${new Date().toLocaleDateString('ar-EG')}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <table class="pdf-meta-table">
+                    <tr>
+                        <td style="text-align:right;">العميل: <bdi>${client.name}</bdi><br><span style="font-weight:normal; font-size:14px;">${client.phone ? 'ت: '+client.phone : ''}</span></td>
+                        <td style="text-align:left; vertical-align:top;">تاريخ الإصدار: ${new Date().toLocaleDateString('ar-EG')}</td>
+                    </tr>
+                </table>
                 
-                <table class="pdf-table">
+                <table class="pdf-data-table">
                     <thead>
                         <tr>
-                            <th style="width:15%; text-align:center;">الإجمالي</th>
-                            <th style="width:20%; text-align:center;">العدد والسعر</th>
-                            <th style="width:20%; text-align:center;">التاريخ</th>
-                            <th style="width:45%; text-align:right;">البيان</th>
+                            <th style="width:40%; text-align:right;">البيان (صنف / فاتورة)</th>
+                            <th style="width:20%;">التاريخ</th>
+                            <th style="width:20%;">الكمية والسعر</th>
+                            <th style="width:20%;">الإجمالي</th>
                         </tr>
                     </thead>
-                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">لا توجد حركات مسجلة</td></tr>'}</tbody>
+                    <tbody>${rows || '<tr><td colspan="4">لا توجد حركات</td></tr>'}</tbody>
                 </table>
                 
                 <div style="overflow:hidden;">
                     <div class="pdf-total-box">
-                        المطلوب سداده: ${calcBalance(client.transactions)} ج.م
+                        الإجمالي المطلوب سداده: ${calcBalance(client.transactions)} ج.م
                     </div>
+                </div>
+                <div style="text-align:center; margin-top:40px; font-size:13px; color:#777; border-top:1px dashed #ccc; padding-top:15px;">
+                    شكراً لتعاملكم معنا - تم إصدار هذا الكشف آلياً
                 </div>
             </div>`;
             
@@ -571,42 +481,12 @@
             const el = document.getElementById('printable-pdf');
             const opt = {
                 margin:       10,
-                filename:     `فاتورة_الصيني_${client.name}.pdf`,
+                filename:     `كشف_${client.name}.pdf`,
                 image:        { type: 'jpeg', quality: 1 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             html2pdf().set(opt).from(el).save();
-        }
-
-        function exportToExcel() {
-            if(Object.keys(appData).length === 0) return showToast("⚠️ لا توجد بيانات للتصدير!", "error");
-            
-            let csvContent = "\uFEFFاسم العميل,رقم الهاتف,إجمالي المسحوبات,إجمالي المدفوعات,الصافي المطلوب\n";
-            Object.values(appData).forEach(client => {
-                let debt = 0; let paid = 0;
-                if(client.transactions) {
-                    Object.values(client.transactions).forEach(tx => {
-                        if(tx.type === 'item') debt += (Number(tx.price) * Number(tx.qty));
-                        else paid += Number(tx.amount);
-                    });
-                }
-                csvContent += `${client.name},${client.phone || "غير مسجل"},${debt},${paid},${debt - paid}\n`;
-            });
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `جرد_محلات_الصيني_${new Date().toLocaleDateString('ar-EG')}.csv`;
-            link.click();
-            showToast("تم تصدير ملف الإكسيل بنجاح ✅");
-        }
-
-        function filterClients() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('.client-item').forEach(el => {
-                el.style.display = el.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
-            });
         }
     </script>
 </body>
