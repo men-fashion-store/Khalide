@@ -10,12 +10,12 @@
     <style>
         :root {
             /* الألوان: أبيض في بني */
-            --bg-color: #fcfaf8; /* أبيض كريمي مريح */
-            --surface: #ffffff; /* أبيض ناصع للكروت */
-            --primary: #5d4037; /* بني أساسي */
-            --primary-light: #8d6e63; /* بني فاتح */
-            --primary-dark: #3e2723; /* بني غامق */
-            --accent: #d7ccc8; /* بيج للحدود */
+            --bg-color: #fcfaf8; 
+            --surface: #ffffff; 
+            --primary: #5d4037; 
+            --primary-light: #8d6e63; 
+            --primary-dark: #3e2723; 
+            --accent: #d7ccc8; 
             --text-main: #3e2723;
             --text-muted: #795548;
             --danger: #c62828;
@@ -48,34 +48,9 @@
         .brand-text { display: flex; flex-direction: column; }
         .brand h1 { margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 1px; }
         .brand span { font-size: 13px; color: var(--accent); font-weight: 600; }
-        
-        .logout-btn {
-            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white;
-            padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px;
-        }
-        .logout-btn:hover { background: var(--danger); border-color: var(--danger); }
-
-        /* --- تسجيل الدخول --- */
-        #login-section {
-            background: var(--surface); padding: 40px; border-radius: var(--radius);
-            box-shadow: var(--shadow); text-align: center; width: 100%; max-width: 400px;
-            margin-top: 50px; border-top: 4px solid var(--primary);
-        }
-        .login-icon svg { width: 60px; height: 60px; fill: var(--primary); margin-bottom: 15px; }
-        .input-field {
-            width: 100%; padding: 14px; margin-bottom: 15px; border: 2px solid var(--accent);
-            border-radius: 8px; font-size: 15px; outline: none; background: #fffaf8; color: var(--text-main);
-        }
-        .input-field:focus { border-color: var(--primary); background: #fff; }
-        .btn-primary {
-            width: 100%; padding: 14px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; font-size: 18px; font-weight: 800; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(93, 64, 55, 0.2);
-        }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
         /* --- واجهة التطبيق --- */
-        #main-app { display: none; width: 100%; max-width: 800px; flex-direction: column; gap: 20px; }
+        #main-app { display: flex; width: 100%; max-width: 800px; flex-direction: column; gap: 20px; }
         
         .top-toolbar { display: flex; gap: 15px; width: 100%; flex-wrap: wrap; }
         .search-box { flex-grow: 1; min-width: 200px; }
@@ -193,18 +168,6 @@
                 <span>لإدارة الهواتف والمديونيات</span>
             </div>
         </div>
-        <button id="logoutBtn" class="logout-btn" style="display: none;" onclick="appLogout()">تسجيل خروج</button>
-    </div>
-
-    <div id="login-section">
-        <div class="login-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-        </div>
-        <h2 style="margin-top:0; color:var(--primary-dark);">لوحة الإدارة</h2>
-        <input type="email" id="email" class="input-field" placeholder="البريد الإلكتروني">
-        <input type="password" id="pass" class="input-field" placeholder="كلمة المرور">
-        <div id="error-msg" style="color:var(--danger); margin-bottom:15px; font-weight:bold; display:none;"></div>
-        <button class="btn-primary" onclick="appLogin()">تسجيل الدخول</button>
     </div>
 
     <div id="main-app">
@@ -226,7 +189,6 @@
     <div id="invoice-template"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
@@ -242,41 +204,15 @@
             databaseURL: "https://khaled-eb11f-default-rtdb.firebaseio.com"
         };
 
-        let db, auth, appData = {};
+        let db, appData = {};
 
         window.onload = function() {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             db = firebase.database();
-            auth = firebase.auth();
-
-            auth.onAuthStateChanged(function(user) {
-                if (user) {
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('main-app').style.display = 'flex';
-                    document.getElementById('logoutBtn').style.display = 'block';
-                    db.ref('shop_clients').on('value', renderClients);
-                } else {
-                    document.getElementById('login-section').style.display = 'block';
-                    document.getElementById('main-app').style.display = 'none';
-                    document.getElementById('logoutBtn').style.display = 'none';
-                    db.ref('shop_clients').off('value', renderClients);
-                }
-            });
+            
+            // تحميل البيانات مباشرة بدون تسجيل دخول
+            db.ref('shop_clients').on('value', renderClients);
         };
-
-        function appLogin() {
-            const e = document.getElementById('email').value;
-            const p = document.getElementById('pass').value;
-            const err = document.getElementById('error-msg');
-            err.style.display = 'none';
-            if(!e || !p) return err.innerText = "برجاء إدخال البريد وكلمة المرور", err.style.display = 'block';
-            auth.signInWithEmailAndPassword(e, p).catch(() => {
-                err.innerText = "بيانات الدخول غير صحيحة";
-                err.style.display = 'block';
-            });
-        }
-
-        function appLogout() { auth.signOut(); }
 
         function renderClients(snap) {
             appData = snap.val() || {};
@@ -430,9 +366,10 @@
 
             // تحويل وتحميل
             html2pdf().set(opt).from(element).save().then(() => {
-                element.style.display = 'none'; // إخفاء القالب تاني
+                element.style.display = 'none'; 
             });
         }
     </script>
 </body>
 </html>
+
