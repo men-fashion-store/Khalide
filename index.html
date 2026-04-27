@@ -49,25 +49,31 @@
         /* ================= شاشة التفاصيل ================= */
         #client-details-view { display: none; background: var(--bg-main); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; padding-bottom: 120px; }
         
-        .cd-header { background: var(--primary); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; position: sticky; top: 0; z-index: 201;}
-        .cd-header button { background: none; border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .cd-header-actions { display: flex; gap: 15px; }
+        .cd-header { background: var(--primary); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; color: #fff; position: sticky; top: 0; z-index: 201;}
+        .cd-header-actions { display: flex; gap: 8px; }
         
-        .add-section { background: var(--bg-card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
-        .add-section h4 { margin: 0 0 15px 0; color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--bg-main); padding-bottom: 10px; font-size: 18px;}
+        /* أيقونات الهيدر الاحترافية */
+        .cd-header-actions button { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .cd-header-actions button:hover { background: rgba(255, 255, 255, 0.25); }
+        .cd-header-actions svg { width: 18px; height: 18px; fill: white; }
+
+        .btn-home { background: none; border: none; font-size: 22px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; }
+
+        .add-section { background: var(--bg-card); border-radius: var(--radius); padding: 15px 20px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
+        .add-section h4 { margin: 0 0 12px 0; color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--bg-main); padding-bottom: 8px; font-size: 16px;}
         
-        /* حقول الإدخال */
-        .inputs-row { display: flex; gap: 8px; margin-bottom: 15px; }
-        .inputs-row input { padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: #FFFBF0; font-size: 15px; font-weight: 600; color: var(--text-dark); }
+        /* حقول الإدخال المُصغرة */
+        .inputs-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .inputs-row input { padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #FFFBF0; font-size: 13px; font-weight: 700; color: var(--text-dark); height: 38px; }
         .inputs-row .desc { flex: 2; }
-        .inputs-row .qty { width: 70px; text-align: center; }
+        .inputs-row .qty { width: 60px; text-align: center; }
         .inputs-row .price { flex: 1; text-align: center; }
 
-        .btn-save-item { background: var(--primary); color: white; width: 100%; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-save-item { background: var(--primary); color: white; width: 100%; border: none; height: 38px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;}
         
-        .pay-section { display: flex; gap: 10px; margin-top: 15px; border-top: 2px solid var(--bg-main); padding-top: 15px;}
-        .btn-save-pay { background: #000; color: white; border: none; border-radius: 8px; width: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px;}
-        .pay-amount-input { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; background: #FFFBF0; text-align: right;}
+        .pay-section { display: flex; gap: 10px; margin-top: 12px; border-top: 2px solid var(--bg-main); padding-top: 12px;}
+        .btn-save-pay { background: #000; color: white; border: none; border-radius: 6px; width: 50px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px;}
+        .pay-amount-input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; background: #FFFBF0; text-align: right; height: 38px;}
 
         /* العمليات */
         .tx-item { background: var(--bg-card); border-radius: var(--radius); padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); border-right: 5px solid #ccc; }
@@ -88,7 +94,7 @@
         
         .preview-content { flex: 1; overflow: auto; padding: 20px; -webkit-overflow-scrolling: touch; }
         
-        /* تصميم الفاتورة الداخلي (ثابت على 800px ليظهر كـ A4) */
+        /* تصميم الفاتورة الداخلي */
         .pdf-page { padding: 40px; background: white; color: black; font-family: 'Cairo', sans-serif; direction: rtl; width: 800px; margin: 0 auto; position: relative;}
         .pdf-header { text-align: center; border-bottom: 4px solid #3E2723; padding-bottom: 15px; margin-bottom: 20px; }
         .pdf-header h1 { margin: 0; font-size: 36px; color: #3E2723; font-weight: 900;}
@@ -138,12 +144,18 @@
     <div id="client-details-view">
         <div class="cd-header">
             <div class="cd-header-actions">
-                <button onclick="previewInvoice()" title="عرض وطباعة الفاتورة">🖨️</button>
-                <button onclick="sendWhatsApp()" title="إرسال واتساب">💬</button>
-                <button onclick="deleteCurrentClient()" title="حذف العميل">🗑️</button>
+                <button onclick="previewInvoice()" title="عرض وطباعة الفاتورة">
+                    <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                </button>
+                <button onclick="sendWhatsApp()" title="إرسال رسالة تفصيلية">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                </button>
+                <button onclick="deleteCurrentClient()" title="حذف العميل">
+                    <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                </button>
             </div>
-            <div style="font-size: 22px; font-weight: 900; color: #fff;" id="cd-name">اسم العميل</div>
-            <button onclick="closeClientDetails()" title="الرئيسية">🏠</button>
+            <div style="font-size: 20px; font-weight: 900; color: #fff;" id="cd-name">اسم العميل</div>
+            <button class="btn-home" onclick="closeClientDetails()" title="الرئيسية">🏠</button>
         </div>
 
         <div class="container">
@@ -173,7 +185,7 @@
 
     <div id="preview-modal" class="preview-modal">
         <div class="preview-toolbar">
-            <button class="btn-dl" onclick="downloadPDF()">📥 تحميل PDF</button>
+            <button class="btn-dl" onclick="downloadPDF()">📥 تحميل كـ PDF</button>
             <button class="btn-wa" onclick="sendWhatsApp()">💬 إرسال واتساب</button>
             <button class="btn-close" onclick="closePreview()">❌ إغلاق</button>
         </div>
@@ -329,20 +341,33 @@
             }
         }
 
-        // --- دالة إرسال واتساب ---
+        // --- دالة إرسال واتساب (مفصلة) ---
         function sendWhatsApp() {
             if(!currentClientId) return;
             const client = appData[currentClientId];
             const balance = calcBalance(client.transactions);
-            const msg = `أهلاً بك يا ${client.name}،\nكشف حساب من محلات خالد الصيني.\nإجمالي المطلوب سداده: ${balance} ج.م\nللاستفسار يرجى مراجعة المحل.`;
+            
+            let txDetails = "";
+            if(client.transactions) {
+                Object.values(client.transactions).forEach(tx => {
+                    const txDate = new Date(tx.timestamp).toLocaleDateString('ar-EG');
+                    if(tx.type === 'item') {
+                        txDetails += `\n▫️ ${txDate}: ${tx.desc} (${tx.price * tx.qty} ج)`;
+                    } else {
+                        txDetails += `\n✅ ${txDate}: سداد دفعة نقدية (-${tx.amount} ج)`;
+                    }
+                });
+            }
+
+            const msg = `أهلاً بك يا ${client.name}،\nكشف حساب من محلات خالد الصيني.\n\nتفاصيل الحساب:${txDetails}\n\n================\nإجمالي المطلوب سداده: *${balance} ج.م*\n\nللاستفسار يرجى مراجعة المحل.`;
             
             let url = '';
             if(client.phone && client.phone.trim() !== "") {
                 let phone = client.phone.trim();
-                if(phone.startsWith('0')) phone = '+2' + phone; // إضافة مفتاح مصر لو الرقم بيبدأ بـ 0
+                if(phone.startsWith('0')) phone = '+2' + phone; 
                 url = `https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`;
             } else {
-                url = `https://wa.me/?text=${encodeURIComponent(msg)}`; // يفتح يختار جهة اتصال
+                url = `https://wa.me/?text=${encodeURIComponent(msg)}`; 
             }
             window.open(url, '_blank');
         }
