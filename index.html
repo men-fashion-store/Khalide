@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>محلات الصيني - بريميوم</title>
+    <title>خالد الصيني - إدارة العملاء</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root {
-            /* الألوان المطلوبة: بني وكريمي وأبيض وأسود */
-            --primary: #3E2723; /* بني غامق جداً */
-            --primary-light: #5D4037; /* بني متوسط */
-            --bg-main: #F5F5DC; /* كريمي فاتح */
+            --primary: #3E2723; /* بني غامق */
+            --primary-light: #5D4037; 
+            --bg-main: #F5F5DC; /* كريمي */
             --bg-card: #ffffff; /* أبيض */
-            --text-dark: #000000; /* أسود */
-            --text-gray: #4E342E; /* بني نصوص */
-            --border: #D7CCC8; /* بيج للحدود */
-            --danger: #B71C1C;
-            --success: #1B5E20;
+            --text-dark: #000000; 
+            --text-gray: #4E342E; 
+            --border: #D7CCC8; 
             --radius: 12px;
             --shadow: 0 4px 12px rgba(62, 39, 35, 0.1);
         }
@@ -27,73 +24,96 @@
         body { margin: 0; padding: 0; background: var(--bg-main); color: var(--text-dark); -webkit-tap-highlight-color: transparent; }
         
         /* --- الهيدر --- */
-        .header { background: var(--bg-card); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; }
-        .header-title { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; color: var(--primary); }
-        .header-logo { width: 45px; height: 45px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .header-logo svg { width: 25px; height: 25px; fill: #fff; }
-
+        .header { background: var(--primary); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+        .header-title { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 22px; color: #fff; margin: 0 auto; }
+        
         /* --- شريط الإجمالي --- */
-        .total-banner { background: var(--primary); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .total-banner span { font-size: 24px; font-weight: 900; color: #D7CCC8; }
+        .total-banner { background: #5D4037; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; }
+        .total-banner span { font-size: 24px; font-weight: 900; color: #F5F5DC; }
 
         /* --- الحاوية --- */
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; padding-bottom: 100px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
 
         /* --- الكروت --- */
-        .action-card { background: var(--bg-card); border-radius: var(--radius); padding: 15px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
-        .search-box input { width: 100%; padding: 12px 15px; border: 2px solid var(--border); border-radius: 25px; font-size: 15px; background: #FFFBF0; }
+        .action-card { background: var(--bg-card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
+        .search-box input { width: 100%; padding: 12px 15px; border: 2px solid var(--border); border-radius: 8px; font-size: 15px; background: #FFFBF0; }
         
         .add-client-form input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; margin-bottom: 10px; background: #FFFBF0; }
-        .btn-add-user { background: var(--primary); color: white; border: none; border-radius: 8px; width: 60px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-add-user { background: var(--primary); color: white; border: none; border-radius: 8px; width: 60px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px;}
 
         /* --- قائمة العملاء --- */
-        .client-item { background: var(--bg-card); border-radius: var(--radius); padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); margin-bottom: 12px; border-right: 6px solid var(--primary); transition: 0.3s; }
-        .client-item:hover { transform: scale(1.02); }
+        .client-item { background: var(--bg-card); border-radius: var(--radius); padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); margin-bottom: 12px; border-right: 6px solid var(--primary); cursor: pointer;}
         .cli-info h3 { margin: 0; font-size: 19px; font-weight: 900; color: var(--primary); }
         .cli-balance { font-size: 22px; font-weight: 900; color: var(--text-dark); background: #EFEBE9; padding: 5px 15px; border-radius: 8px; }
 
         /* ================= شاشة التفاصيل ================= */
         #client-details-view { display: none; background: var(--bg-main); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; padding-bottom: 120px; }
-        .cd-header { background: var(--primary); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
         
-        .add-section { background: var(--bg-card); border-radius: var(--radius); padding: 15px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
-        .add-section h4 { margin: 0 0 15px 0; color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--bg-main); padding-bottom: 5px; }
+        .cd-header { background: var(--primary); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; position: sticky; top: 0; z-index: 201;}
+        .cd-header button { background: none; border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .cd-header-actions { display: flex; gap: 15px; }
         
-        .btn-save-item { background: var(--primary); color: white; width: 100%; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-save-pay { background: var(--text-dark); color: white; border: none; border-radius: 8px; width: 60px; display: flex; align-items: center; justify-content: center; }
+        .add-section { background: var(--bg-card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
+        .add-section h4 { margin: 0 0 15px 0; color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--bg-main); padding-bottom: 10px; font-size: 18px;}
+        
+        /* حقول الإدخال */
+        .inputs-row { display: flex; gap: 8px; margin-bottom: 15px; }
+        .inputs-row input { padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: #FFFBF0; font-size: 15px; font-weight: 600; color: var(--text-dark); }
+        .inputs-row .desc { flex: 2; }
+        .inputs-row .qty { width: 70px; text-align: center; }
+        .inputs-row .price { flex: 1; text-align: center; }
 
+        .btn-save-item { background: var(--primary); color: white; width: 100%; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        
+        .pay-section { display: flex; gap: 10px; margin-top: 15px; border-top: 2px solid var(--bg-main); padding-top: 15px;}
+        .btn-save-pay { background: #000; color: white; border: none; border-radius: 8px; width: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px;}
+        .pay-amount-input { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; background: #FFFBF0; text-align: right;}
+
+        /* العمليات */
         .tx-item { background: var(--bg-card); border-radius: var(--radius); padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); border-right: 5px solid #ccc; }
         .tx-item.is-debt { border-right-color: var(--primary); }
-        .tx-item.is-pay { border-right-color: var(--success); }
+        .tx-item.is-pay { border-right-color: #1B5E20; }
         
         /* البار السفلي */
-        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--primary); color: #fff; padding: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 205; border-radius: 20px 20px 0 0; }
-        .bb-total { font-size: 28px; font-weight: 900; color: #D7CCC8; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--primary); color: #fff; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 205; border-radius: 20px 20px 0 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.2);}
+        .bb-total { font-size: 28px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 5px; direction: ltr;}
 
-        /* --- الفاتورة PDF --- */
-        .pdf-page { padding: 40px; background: white; color: black; font-family: 'Cairo', sans-serif; direction: rtl; width: 800px; margin: 0 auto; }
-        .pdf-header { text-align: center; border-bottom: 4px solid #3E2723; padding-bottom: 10px; margin-bottom: 20px; }
-        .pdf-header h1 { margin: 0; font-size: 32px; color: #3E2723; }
-        .pdf-table th { background: #3E2723; color: #fff; padding: 12px; }
-        .pdf-total-box { border: 3px solid #3E2723; padding: 15px; font-size: 22px; font-weight: 900; float: left; margin-top: 20px; }
+        /* ================= شاشة العرض المسبق للفاتورة (Preview Modal) ================= */
+        .preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; display: none; flex-direction: column; }
+        .preview-toolbar { background: var(--primary); padding: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .preview-toolbar button { padding: 10px 15px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 15px; flex: 1; min-width: 100px; }
+        .btn-dl { background: var(--bg-main); color: var(--primary); }
+        .btn-wa { background: #25D366; color: white; }
+        .btn-close { background: #B71C1C; color: white; }
+        
+        .preview-content { flex: 1; overflow: auto; padding: 20px; -webkit-overflow-scrolling: touch; }
+        
+        /* تصميم الفاتورة الداخلي (ثابت على 800px ليظهر كـ A4) */
+        .pdf-page { padding: 40px; background: white; color: black; font-family: 'Cairo', sans-serif; direction: rtl; width: 800px; margin: 0 auto; position: relative;}
+        .pdf-header { text-align: center; border-bottom: 4px solid #3E2723; padding-bottom: 15px; margin-bottom: 20px; }
+        .pdf-header h1 { margin: 0; font-size: 36px; color: #3E2723; font-weight: 900;}
+        .pdf-header p { margin: 5px 0 0 0; font-size: 18px; color: #5D4037;}
+        .pdf-meta { display: flex; justify-content: space-between; margin-bottom: 25px; font-weight: bold; font-size: 18px; background: #F5F5DC; padding: 15px; border-radius: 8px;}
+        .pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; border: 2px solid #3E2723; }
+        .pdf-table th { background: #3E2723; color: #fff; padding: 15px; font-size: 16px; border: 1px solid #3E2723;}
+        .pdf-table td { padding: 12px; border: 1px solid #D7CCC8; font-size: 15px; font-weight: 600;}
+        .pdf-table tr:nth-child(even) { background: #FAFAFA; }
+        .pdf-total-box { border: 3px solid #3E2723; background: #F5F5DC; padding: 15px 25px; font-size: 24px; font-weight: 900; color: #3E2723; display: inline-block; border-radius: 8px;}
+        .pdf-footer { text-align: center; margin-top: 50px; border-top: 1px dashed #ccc; padding-top: 20px; color: #777; font-weight: bold;}
     </style>
 </head>
 <body>
 
     <div id="main-view">
         <div class="header">
-            <div style="font-size: 20px;">⚙️</div>
-            <div class="header-title">
-                محلات الصيني
-                <div class="header-logo">
-                    <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-                </div>
-            </div>
+            <div style="width: 30px;"></div>
+            <div class="header-title">خالد الصيني</div>
+            <div style="width: 30px; font-size: 22px; text-align: left;">🏠</div>
         </div>
 
         <div class="total-banner">
-            <div>💰 إجمالي ديون السوق:</div>
-            <div><span id="global-total">0</span> ج.م</div>
+            <div>إجمالي ديون السوق:</div>
+            <div dir="ltr"><span id="global-total">0</span> ج.م</div>
         </div>
 
         <div class="container">
@@ -103,10 +123,10 @@
                 </div>
                 
                 <div class="add-client-form">
-                    <input type="text" id="new-client-name" placeholder="👤 اسم العميل الجديد (مطلوب)">
+                    <input type="text" id="new-client-name" placeholder="👤 اسم العميل (مطلوب)">
                     <div style="display: flex; gap: 10px;">
+                        <input type="tel" id="new-client-phone" placeholder="📞 رقم التليفون (اختياري)">
                         <button class="btn-add-user" onclick="addClient()">➕</button>
-                        <input type="tel" id="new-client-phone" placeholder="📞 رقم الموبايل (اختياري)">
                     </div>
                 </div>
             </div>
@@ -117,40 +137,49 @@
 
     <div id="client-details-view">
         <div class="cd-header">
-            <button onclick="closeClientDetails()" style="background:none; border:none; color:#fff; font-size:25px; cursor:pointer;">🏠</button>
-            <div style="font-size: 20px; font-weight: 900;" id="cd-name">اسم العميل</div>
-            <div style="display:flex; gap:10px;">
-                <button onclick="deleteCurrentClient()" style="background:none; border:none; font-size:20px;">🗑️</button>
-                <button onclick="printInvoice()" style="background:none; border:none; font-size:20px;">🖨️</button>
+            <div class="cd-header-actions">
+                <button onclick="previewInvoice()" title="عرض وطباعة الفاتورة">🖨️</button>
+                <button onclick="sendWhatsApp()" title="إرسال واتساب">💬</button>
+                <button onclick="deleteCurrentClient()" title="حذف العميل">🗑️</button>
             </div>
+            <div style="font-size: 22px; font-weight: 900; color: #fff;" id="cd-name">اسم العميل</div>
+            <button onclick="closeClientDetails()" title="الرئيسية">🏠</button>
         </div>
 
         <div class="container">
             <div class="add-section">
                 <h4>📦 إضافة صنف مديونية</h4>
-                <div style="display:flex; gap:5px; margin-bottom:10px;">
-                    <input type="number" id="item-price" placeholder="السعر" style="flex:1; padding:10px; border:1px solid #ccc; border-radius:5px;">
-                    <input type="number" id="item-qty" placeholder="العدد" value="1" style="width:60px; padding:10px; border:1px solid #ccc; border-radius:5px;">
-                    <input type="text" id="item-desc" placeholder="الصنف" style="flex:2; padding:10px; border:1px solid #ccc; border-radius:5px;">
+                <div class="inputs-row">
+                    <input type="text" id="item-desc" class="desc" placeholder="الصنف">
+                    <input type="number" id="item-qty" class="qty" placeholder="العدد" value="1">
+                    <input type="number" id="item-price" class="price" placeholder="السعر">
                 </div>
                 <button class="btn-save-item" onclick="saveItem()">💾 حفظ في الحساب</button>
 
-                <div style="display:flex; gap:10px; margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
+                <div class="pay-section">
+                    <input type="number" id="pay-amount" class="pay-amount-input" placeholder="مبلغ سداد نقدية">
                     <button class="btn-save-pay" onclick="savePayment()">💵</button>
-                    <input type="number" id="pay-amount" placeholder="مبلغ سداد نقدية" style="flex:1; padding:12px; border:1px solid #ccc; border-radius:8px;">
                 </div>
             </div>
 
-            <div class="tx-list" id="cd-tx-list"></div>
+            <div id="cd-tx-list"></div>
         </div>
 
         <div class="bottom-bar">
+            <div style="font-weight: 900; font-size: 20px;">المطلوب سداده:</div>
             <div class="bb-total"><span id="cd-total-due">0</span> ج.م</div>
-            <div style="font-weight: 800; font-size: 18px;">المطلوب سداده:</div>
         </div>
     </div>
 
-    <div id="invoice-template" style="display:none;"></div>
+    <div id="preview-modal" class="preview-modal">
+        <div class="preview-toolbar">
+            <button class="btn-dl" onclick="downloadPDF()">📥 تحميل PDF</button>
+            <button class="btn-wa" onclick="sendWhatsApp()">💬 إرسال واتساب</button>
+            <button class="btn-close" onclick="closePreview()">❌ إغلاق</button>
+        </div>
+        <div class="preview-content" id="preview-content-box">
+            </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -171,7 +200,7 @@
         window.onload = function() {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             db = firebase.database();
-            db.ref('shop_clients_final').on('value', snap => {
+            db.ref('khaled_sini_clients').on('value', snap => {
                 appData = snap.val() || {};
                 renderDashboard();
                 if(currentClientId && appData[currentClientId]) renderClientDetails(currentClientId);
@@ -191,16 +220,21 @@
             const list = document.getElementById('client-list');
             list.innerHTML = '';
             let globalTotal = 0;
+            
             Object.keys(appData).reverse().forEach(uid => {
                 const client = appData[uid];
                 const bal = calcBalance(client.transactions);
                 globalTotal += bal;
+                
                 const div = document.createElement('div');
                 div.className = 'client-item';
                 div.onclick = () => openClientDetails(uid);
                 div.innerHTML = `
-                    <div class="cli-balance">ج <b>${bal}</b></div>
-                    <div class="cli-info"><h3>${client.name}</h3><p>${client.phone || 'بدون رقم'}</p></div>
+                    <div class="cli-balance" dir="ltr">${bal} ج</div>
+                    <div class="cli-info">
+                        <h3>${client.name}</h3>
+                        <div style="font-size:13px; color:var(--text-gray); margin-top:5px;">${client.phone || 'بدون رقم'}</div>
+                    </div>
                 `;
                 list.appendChild(div);
             });
@@ -209,9 +243,11 @@
 
         function addClient() {
             const name = document.getElementById('new-client-name').value.trim();
+            const phone = document.getElementById('new-client-phone').value.trim();
             if(!name) return alert("⚠️ لازم تكتب اسم العميل!");
-            db.ref('shop_clients_final').push().set({
-                name: name, phone: document.getElementById('new-client-phone').value, created_at: Date.now()
+            
+            db.ref('khaled_sini_clients').push().set({
+                name: name, phone: phone, created_at: Date.now()
             });
             document.getElementById('new-client-name').value = '';
             document.getElementById('new-client-phone').value = '';
@@ -221,6 +257,7 @@
             currentClientId = uid;
             document.getElementById('main-view').style.display = 'none';
             document.getElementById('client-details-view').style.display = 'block';
+            window.scrollTo(0,0);
             renderClientDetails(uid);
         }
 
@@ -235,20 +272,25 @@
             document.getElementById('cd-name').innerText = client.name;
             const txList = document.getElementById('cd-tx-list');
             txList.innerHTML = '';
+            
             if(client.transactions) {
                 Object.keys(client.transactions).reverse().forEach(tid => {
                     const tx = client.transactions[tid];
                     const div = document.createElement('div');
                     div.className = `tx-item ${tx.type === 'item' ? 'is-debt' : 'is-pay'}`;
+                    const dateStr = new Date(tx.timestamp).toLocaleDateString('ar-EG');
+                    
                     div.innerHTML = `
-                        <div style="font-weight:900; font-size:18px; color:${tx.type === 'item' ? '#3E2723' : '#1B5E20'}">
-                            ${tx.type === 'item' ? (tx.price*tx.qty) : '- '+tx.amount} ج
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <button onclick="deleteTx('${uid}','${tid}')" style="background:none; border:none; color:#B71C1C; cursor:pointer; font-size:18px;">✖</button>
+                            <div style="font-weight:900; font-size:18px; color:${tx.type === 'item' ? 'var(--primary)' : '#1B5E20'}" dir="ltr">
+                                ${tx.type === 'item' ? (tx.price*tx.qty) : '- '+tx.amount} ج
+                            </div>
                         </div>
                         <div style="text-align:right;">
-                            <div style="font-weight:bold;">${tx.type === 'item' ? tx.desc : 'دفعة مسددة ✅'}</div>
-                            <div style="font-size:12px; color:#777;">${new Date(tx.timestamp).toLocaleDateString('ar-EG')}</div>
+                            <div style="font-weight:bold; font-size:16px;">${tx.type === 'item' ? tx.desc : 'دفعة مسددة ✅'}</div>
+                            <div style="font-size:13px; color:#777; margin-top:3px;" dir="ltr">${dateStr} 🗓️</div>
                         </div>
-                        <button onclick="deleteTx('${uid}','${tid}')" style="background:none; border:none; color:red; cursor:pointer;">❌</button>
                     `;
                     txList.appendChild(div);
                 });
@@ -257,49 +299,140 @@
         }
 
         function saveItem() {
-            const d = document.getElementById('item-desc').value, q = document.getElementById('item-qty').value, p = document.getElementById('item-price').value;
-            if(!d || !q || !p) return alert("كمل البيانات!");
-            db.ref(`shop_clients_final/${currentClientId}/transactions`).push().set({ type:'item', desc:d, qty:q, price:p, timestamp:Date.now() });
-            document.getElementById('item-desc').value=''; document.getElementById('item-price').value='';
+            const d = document.getElementById('item-desc').value.trim();
+            const q = document.getElementById('item-qty').value;
+            const p = document.getElementById('item-price').value;
+            
+            if(!d || !q || !p) return alert("برجاء استكمال بيانات الصنف!");
+            
+            db.ref(`khaled_sini_clients/${currentClientId}/transactions`).push().set({ 
+                type:'item', desc:d, qty:q, price:p, timestamp:Date.now() 
+            });
+            document.getElementById('item-desc').value=''; document.getElementById('item-price').value=''; document.getElementById('item-qty').value='1';
         }
 
         function savePayment() {
             const a = document.getElementById('pay-amount').value;
-            if(!a || a<=0) return alert("أدخل المبلغ!");
-            db.ref(`shop_clients_final/${currentClientId}/transactions`).push().set({ type:'pay', amount:a, timestamp:Date.now() });
+            if(!a || a<=0) return alert("أدخل مبلغ السداد بشكل صحيح!");
+            
+            db.ref(`khaled_sini_clients/${currentClientId}/transactions`).push().set({ 
+                type:'pay', amount:a, timestamp:Date.now() 
+            });
             document.getElementById('pay-amount').value='';
         }
 
-        function deleteTx(uid, tid) { if(confirm("حذف؟")) db.ref(`shop_clients_final/${uid}/transactions/${tid}`).remove(); }
-        function deleteCurrentClient() { if(confirm("مسح العميل نهائياً؟")) db.ref(`shop_clients_final/${currentClientId}`).remove(); }
+        function deleteTx(uid, tid) { if(confirm("هل تريد مسح هذه العملية؟")) db.ref(`khaled_sini_clients/${uid}/transactions/${tid}`).remove(); }
+        function deleteCurrentClient() { 
+            if(confirm("تحذير: هل أنت متأكد من مسح العميل بالكامل؟")) {
+                db.ref(`khaled_sini_clients/${currentClientId}`).remove();
+                closeClientDetails();
+            }
+        }
 
-        function printInvoice() {
+        // --- دالة إرسال واتساب ---
+        function sendWhatsApp() {
+            if(!currentClientId) return;
             const client = appData[currentClientId];
-            let rows = '';
-            if(client.transactions) Object.values(client.transactions).forEach(tx => {
-                rows += `<tr>
-                    <td>${tx.type==='item' ? (tx.price*tx.qty)+' ج' : tx.amount+' ج-'}</td>
-                    <td>${tx.type==='item' ? tx.qty+' x '+tx.price : '-'}</td>
-                    <td>${new Date(tx.timestamp).toLocaleDateString('ar-EG')}</td>
-                    <td>${tx.type==='item' ? tx.desc : 'سداد نقدية'}</td>
-                </tr>`;
-            });
+            const balance = calcBalance(client.transactions);
+            const msg = `أهلاً بك يا ${client.name}،\nكشف حساب من محلات خالد الصيني.\nإجمالي المطلوب سداده: ${balance} ج.م\nللاستفسار يرجى مراجعة المحل.`;
+            
+            let url = '';
+            if(client.phone && client.phone.trim() !== "") {
+                let phone = client.phone.trim();
+                if(phone.startsWith('0')) phone = '+2' + phone; // إضافة مفتاح مصر لو الرقم بيبدأ بـ 0
+                url = `https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`;
+            } else {
+                url = `https://wa.me/?text=${encodeURIComponent(msg)}`; // يفتح يختار جهة اتصال
+            }
+            window.open(url, '_blank');
+        }
 
-            const html = `<div class="pdf-page">
-                <div class="pdf-header"><h1>محلات الصيني</h1><p>كشف حساب عميل</p></div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                    <div>التاريخ: ${new Date().toLocaleDateString('ar-EG')}</div>
-                    <div>العميل: ${client.name}</div>
+        // --- دوال العرض المسبق والتحميل (Preview & Download) ---
+        function previewInvoice() {
+            const client = appData[currentClientId];
+            if(!client) return;
+            let rows = '';
+            
+            if(client.transactions) {
+                Object.values(client.transactions).forEach(tx => {
+                    const txDate = new Date(tx.timestamp).toLocaleDateString('ar-EG');
+                    
+                    if(tx.type === 'item') {
+                        rows += `<tr>
+                            <td style="text-align:center; font-weight:bold;">${tx.price * tx.qty} ج</td>
+                            <td style="text-align:center;" dir="ltr">${tx.qty} x ${tx.price}</td>
+                            <td style="text-align:center;">${txDate}</td>
+                            <td>${tx.desc}</td>
+                        </tr>`;
+                    } else {
+                        rows += `<tr>
+                            <td style="text-align:center; color:#1B5E20; font-weight:bold;" dir="ltr">${tx.amount} ج -</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">${txDate}</td>
+                            <td style="font-weight:bold;">سداد نقدية ✅</td>
+                        </tr>`;
+                    }
+                });
+            }
+
+            const html = `
+            <div class="pdf-page" id="printable-pdf">
+                <div class="pdf-header">
+                    <h1>خالد الصيني</h1>
+                    <p>كشف حساب عميل مفصل</p>
                 </div>
-                <table style="width:100%; border-collapse:collapse;" border="1">
-                    <thead><tr><th>الإجمالي</th><th>السعر والعدد</th><th>التاريخ</th><th>البيان</th></tr></thead>
-                    <tbody>${rows}</tbody>
+                
+                <div class="pdf-meta">
+                    <div>تاريخ الإصدار: ${new Date().toLocaleDateString('ar-EG')}</div>
+                    <div style="text-align:left;">
+                        اسم العميل: ${client.name}<br>
+                        <span style="font-size:14px; color:#5D4037;">${client.phone ? 'ت: ' + client.phone : 'بدون رقم مسجل'}</span>
+                    </div>
+                </div>
+                
+                <table class="pdf-table">
+                    <thead>
+                        <tr>
+                            <th style="width:15%; text-align:center;">الإجمالي</th>
+                            <th style="width:20%; text-align:center;">العدد والسعر</th>
+                            <th style="width:20%; text-align:center;">تاريخ العملية</th>
+                            <th style="width:45%; text-align:right;">البيان</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;">لا توجد حركات مسجلة</td></tr>'}</tbody>
                 </table>
-                <div class="pdf-total-box">المطلوب سداده: ${calcBalance(client.transactions)} ج.م</div>
+                
+                <div style="overflow:hidden;">
+                    <div class="pdf-total-box">
+                        المطلوب سداده: ${calcBalance(client.transactions)} ج.م
+                    </div>
+                </div>
+
+                <div class="pdf-footer">
+                    تم إصدار هذا الكشف آلياً من نظام إدارة حسابات خالد الصيني
+                </div>
             </div>`;
-            const el = document.getElementById('invoice-template');
-            el.innerHTML = html; el.style.display='block';
-            html2pdf().from(el).save(`الصيني_${client.name}.pdf`).then(()=>el.style.display='none');
+            
+            document.getElementById('preview-content-box').innerHTML = html;
+            document.getElementById('preview-modal').style.display = 'flex';
+        }
+
+        function closePreview() {
+            document.getElementById('preview-modal').style.display = 'none';
+        }
+
+        function downloadPDF() {
+            const client = appData[currentClientId];
+            const el = document.getElementById('printable-pdf');
+            const opt = {
+                margin:       10,
+                filename:     `فاتورة_الصيني_${client.name}.pdf`,
+                image:        { type: 'jpeg', quality: 1 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(el).save();
         }
 
         function filterClients() {
