@@ -3,196 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>الصيني - إدارة الهواتف</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <title>محلات الصيني - بريميوم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root {
-            /* الألوان: أبيض في بني */
-            --bg-color: #fcfaf8; 
-            --surface: #ffffff; 
-            --primary: #5d4037; 
-            --primary-light: #8d6e63; 
-            --primary-dark: #3e2723; 
-            --accent: #d7ccc8; 
-            --text-main: #3e2723;
-            --text-muted: #795548;
-            --danger: #c62828;
+            /* الألوان المطلوبة: بني وكريمي وأبيض وأسود */
+            --primary: #3E2723; /* بني غامق جداً */
+            --primary-light: #5D4037; /* بني متوسط */
+            --bg-main: #F5F5DC; /* كريمي فاتح */
+            --bg-card: #ffffff; /* أبيض */
+            --text-dark: #000000; /* أسود */
+            --text-gray: #4E342E; /* بني نصوص */
+            --border: #D7CCC8; /* بيج للحدود */
+            --danger: #B71C1C;
+            --success: #1B5E20;
             --radius: 12px;
-            --shadow: 0 8px 20px rgba(93, 64, 55, 0.08);
+            --shadow: 0 4px 12px rgba(62, 39, 35, 0.1);
         }
 
-        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; transition: all 0.3s ease; }
+        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; }
+        body { margin: 0; padding: 0; background: var(--bg-main); color: var(--text-dark); -webkit-tap-highlight-color: transparent; }
         
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
-        }
+        /* --- الهيدر --- */
+        .header { background: var(--bg-card); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; }
+        .header-title { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; color: var(--primary); }
+        .header-logo { width: 45px; height: 45px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .header-logo svg { width: 25px; height: 25px; fill: #fff; }
 
-        /* --- الهيدر واللوجو --- */
-        .app-header {
-            width: 100%; max-width: 800px;
-            display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            color: white;
-            padding: 20px 25px; border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 25px;
-        }
-        .brand { display: flex; align-items: center; gap: 15px; }
-        .brand svg { width: 40px; height: 40px; fill: white; }
-        .brand-text { display: flex; flex-direction: column; }
-        .brand h1 { margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 1px; }
-        .brand span { font-size: 13px; color: var(--accent); font-weight: 600; }
+        /* --- شريط الإجمالي --- */
+        .total-banner { background: var(--primary); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .total-banner span { font-size: 24px; font-weight: 900; color: #D7CCC8; }
 
-        /* --- واجهة التطبيق --- */
-        #main-app { display: flex; width: 100%; max-width: 800px; flex-direction: column; gap: 20px; }
+        /* --- الحاوية --- */
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; padding-bottom: 100px; }
+
+        /* --- الكروت --- */
+        .action-card { background: var(--bg-card); border-radius: var(--radius); padding: 15px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
+        .search-box input { width: 100%; padding: 12px 15px; border: 2px solid var(--border); border-radius: 25px; font-size: 15px; background: #FFFBF0; }
         
-        .top-toolbar { display: flex; gap: 15px; width: 100%; flex-wrap: wrap; }
-        .search-box { flex-grow: 1; min-width: 200px; }
-        .search-box input { 
-            width: 100%; padding: 14px 20px; border: 2px solid var(--accent); 
-            border-radius: 30px; font-size: 16px; outline: none; box-shadow: var(--shadow); 
-        }
-        .search-box input:focus { border-color: var(--primary); }
-        .add-client-btn { 
-            background: var(--primary-dark); color: white; border: none; padding: 0 25px; 
-            border-radius: 30px; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: var(--shadow);
-        }
-        .add-client-btn:hover { background: var(--primary); transform: scale(1.02); }
+        .add-client-form input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; margin-bottom: 10px; background: #FFFBF0; }
+        .btn-add-user { background: var(--primary); color: white; border: none; border-radius: 8px; width: 60px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        .dashboard-stats {
-            background: var(--surface); border: 2px dashed var(--primary-light);
-            padding: 20px; border-radius: var(--radius); display: flex; justify-content: space-between; align-items: center;
-        }
-        .stat-title { font-size: 18px; font-weight: 800; color: var(--text-muted); }
-        .stat-value { font-size: 28px; font-weight: 900; color: var(--primary-dark); }
+        /* --- قائمة العملاء --- */
+        .client-item { background: var(--bg-card); border-radius: var(--radius); padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); margin-bottom: 12px; border-right: 6px solid var(--primary); transition: 0.3s; }
+        .client-item:hover { transform: scale(1.02); }
+        .cli-info h3 { margin: 0; font-size: 19px; font-weight: 900; color: var(--primary); }
+        .cli-balance { font-size: 22px; font-weight: 900; color: var(--text-dark); background: #EFEBE9; padding: 5px 15px; border-radius: 8px; }
 
-        /* --- كارت العميل --- */
-        .client-card {
-            background: var(--surface); border-radius: var(--radius);
-            padding: 25px; box-shadow: var(--shadow); border-right: 5px solid var(--primary);
-            animation: fadeIn 0.4s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .client-header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            border-bottom: 2px solid var(--bg-color); padding-bottom: 15px; margin-bottom: 20px;
-        }
-        .client-info { display: flex; flex-direction: column; gap: 8px; width: 60%; }
-        .client-name-input {
-            border: none; font-size: 22px; font-weight: 900; color: var(--primary-dark);
-            outline: none; background: transparent; width: 100%;
-        }
-        .client-phone-input {
-            border: none; font-size: 15px; font-weight: 600; color: var(--text-muted);
-            outline: none; background: transparent; width: 100%;
-        }
-        .client-name-input::placeholder, .client-phone-input::placeholder { color: #bcaaa4; }
+        /* ================= شاشة التفاصيل ================= */
+        #client-details-view { display: none; background: var(--bg-main); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; padding-bottom: 120px; }
+        .cd-header { background: var(--primary); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
         
-        .action-buttons { display: flex; gap: 10px; }
-        .icon-btn {
-            background: var(--bg-color); border: 1px solid var(--accent); width: 40px; height: 40px;
-            border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 18px;
-        }
-        .btn-pdf { color: var(--primary); }
-        .btn-pdf:hover { background: var(--primary); color: white; border-color: var(--primary); }
-        .btn-del { color: var(--danger); }
-        .btn-del:hover { background: var(--danger); color: white; border-color: var(--danger); }
-
-        /* تفاصيل المسحوبات */
-        .row-item { display: flex; gap: 10px; margin-bottom: 12px; align-items: center; background: #faf8f5; padding: 8px; border-radius: 8px; border: 1px solid var(--accent); }
-        .row-item input {
-            border: none; background: transparent; font-size: 15px; outline: none; font-weight: 600; color: var(--text-main);
-        }
-        .desc-input { flex-grow: 1; border-left: 2px solid var(--accent) !important; padding-left: 10px; }
-        .price-input { width: 90px; text-align: center; font-weight: 800; color: var(--primary-dark); }
-        .row-del { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 22px; font-weight: bold; opacity: 0.7; }
-        .row-del:hover { opacity: 1; }
-
-        .card-footer {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: 20px; padding-top: 15px; border-top: 2px dashed var(--accent);
-        }
-        .add-row-btn { 
-            background: var(--bg-color); border: 2px solid var(--primary-light); color: var(--primary-dark); 
-            font-weight: 800; cursor: pointer; padding: 8px 15px; border-radius: 6px; font-size: 14px;
-        }
-        .add-row-btn:hover { background: var(--primary-light); color: white; }
-        .total-amount { font-size: 18px; font-weight: 800; color: var(--text-muted); }
-        .total-amount span { font-size: 24px; font-weight: 900; color: var(--primary-dark); }
+        .add-section { background: var(--bg-card); border-radius: var(--radius); padding: 15px; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
+        .add-section h4 { margin: 0 0 15px 0; color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--bg-main); padding-bottom: 5px; }
         
-        /* --- تصميم الفاتورة الـ PDF المخفية للطباعة --- */
-        #invoice-template { display: none; }
-        .print-view {
-            padding: 40px; background: white; color: #3e2723; font-family: 'Cairo', sans-serif; direction: rtl;
-            border: 1px solid #d7ccc8;
-        }
-        .print-header { 
-            text-align: center; border-bottom: 3px solid #5d4037; padding-bottom: 20px; margin-bottom: 30px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .print-header svg { width: 50px; height: 50px; fill: #5d4037; margin-bottom: 10px; }
-        .print-header h1 { margin: 0; font-size: 30px; font-weight: 900; color: #3e2723; }
-        .print-header p { margin: 5px 0 0 0; color: #795548; font-weight: 600; }
-        
-        .print-client-info { background: #fcfaf8; padding: 15px; border-radius: 8px; border: 1px solid #d7ccc8; margin-bottom: 30px; }
-        .print-client-info h3 { margin: 0 0 10px 0; font-size: 20px; color: #3e2723; }
-        .print-client-info p { margin: 0; font-size: 16px; font-weight: bold; color: #5d4037; }
+        .btn-save-item { background: var(--primary); color: white; width: 100%; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-save-pay { background: var(--text-dark); color: white; border: none; border-radius: 8px; width: 60px; display: flex; align-items: center; justify-content: center; }
 
-        .print-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-        .print-table th, .print-table td { border: 1px solid #d7ccc8; padding: 15px; text-align: right; font-size: 16px; font-weight: bold; }
-        .print-table th { background-color: #5d4037; color: white; }
-        .print-table tr:nth-child(even) { background-color: #faf8f5; }
+        .tx-item { background: var(--bg-card); border-radius: var(--radius); padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); border-right: 5px solid #ccc; }
+        .tx-item.is-debt { border-right-color: var(--primary); }
+        .tx-item.is-pay { border-right-color: var(--success); }
         
-        .print-total-box { 
-            background: #5d4037; color: white; padding: 15px 20px; border-radius: 8px;
-            display: inline-block; font-size: 22px; font-weight: 900; float: left;
-        }
-        .print-footer { clear: both; text-align: center; margin-top: 60px; color: #8d6e63; font-weight: bold; border-top: 1px dashed #d7ccc8; padding-top: 20px; }
+        /* البار السفلي */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--primary); color: #fff; padding: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 205; border-radius: 20px 20px 0 0; }
+        .bb-total { font-size: 28px; font-weight: 900; color: #D7CCC8; }
+
+        /* --- الفاتورة PDF --- */
+        .pdf-page { padding: 40px; background: white; color: black; font-family: 'Cairo', sans-serif; direction: rtl; width: 800px; margin: 0 auto; }
+        .pdf-header { text-align: center; border-bottom: 4px solid #3E2723; padding-bottom: 10px; margin-bottom: 20px; }
+        .pdf-header h1 { margin: 0; font-size: 32px; color: #3E2723; }
+        .pdf-table th { background: #3E2723; color: #fff; padding: 12px; }
+        .pdf-total-box { border: 3px solid #3E2723; padding: 15px; font-size: 22px; font-weight: 900; float: left; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="app-header">
-        <div class="brand">
-            <svg viewBox="0 0 24 24"><path d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-4 20c-.83 0-1.5-.67-1.5-1.5S11.17 18 12 18s1.5.67 1.5 1.5S12.83 21 12 21zm3.5-4H8.5V4h7v13z"/></svg>
-            <div class="brand-text">
-                <h1>الصيني</h1>
-                <span>لإدارة الهواتف والمديونيات</span>
+    <div id="main-view">
+        <div class="header">
+            <div style="font-size: 20px;">⚙️</div>
+            <div class="header-title">
+                محلات الصيني
+                <div class="header-logo">
+                    <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                </div>
             </div>
+        </div>
+
+        <div class="total-banner">
+            <div>💰 إجمالي ديون السوق:</div>
+            <div><span id="global-total">0</span> ج.م</div>
+        </div>
+
+        <div class="container">
+            <div class="action-card">
+                <div class="search-box" style="margin-bottom: 15px;">
+                    <input type="text" id="searchInput" placeholder="🔍 ابحث عن اسم العميل..." oninput="filterClients()">
+                </div>
+                
+                <div class="add-client-form">
+                    <input type="text" id="new-client-name" placeholder="👤 اسم العميل الجديد (مطلوب)">
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-add-user" onclick="addClient()">➕</button>
+                        <input type="tel" id="new-client-phone" placeholder="📞 رقم الموبايل (اختياري)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="client-list" id="client-list"></div>
         </div>
     </div>
 
-    <div id="main-app">
-        <div class="top-toolbar">
-            <div class="search-box">
-                <input type="text" id="search" placeholder="🔍 ابحث باسم العميل أو رقم التليفون..." oninput="filterClients()">
+    <div id="client-details-view">
+        <div class="cd-header">
+            <button onclick="closeClientDetails()" style="background:none; border:none; color:#fff; font-size:25px; cursor:pointer;">🏠</button>
+            <div style="font-size: 20px; font-weight: 900;" id="cd-name">اسم العميل</div>
+            <div style="display:flex; gap:10px;">
+                <button onclick="deleteCurrentClient()" style="background:none; border:none; font-size:20px;">🗑️</button>
+                <button onclick="printInvoice()" style="background:none; border:none; font-size:20px;">🖨️</button>
             </div>
-            <button class="add-client-btn" onclick="createNewClient()">+ إضافة عميل جديد</button>
         </div>
 
-        <div class="dashboard-stats">
-            <div class="stat-title">إجمالي مديونيات السوق:</div>
-            <div class="stat-value"><span id="global-total">0</span> <span style="font-size:18px;">ج.م</span></div>
+        <div class="container">
+            <div class="add-section">
+                <h4>📦 إضافة صنف مديونية</h4>
+                <div style="display:flex; gap:5px; margin-bottom:10px;">
+                    <input type="number" id="item-price" placeholder="السعر" style="flex:1; padding:10px; border:1px solid #ccc; border-radius:5px;">
+                    <input type="number" id="item-qty" placeholder="العدد" value="1" style="width:60px; padding:10px; border:1px solid #ccc; border-radius:5px;">
+                    <input type="text" id="item-desc" placeholder="الصنف" style="flex:2; padding:10px; border:1px solid #ccc; border-radius:5px;">
+                </div>
+                <button class="btn-save-item" onclick="saveItem()">💾 حفظ في الحساب</button>
+
+                <div style="display:flex; gap:10px; margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
+                    <button class="btn-save-pay" onclick="savePayment()">💵</button>
+                    <input type="number" id="pay-amount" placeholder="مبلغ سداد نقدية" style="flex:1; padding:12px; border:1px solid #ccc; border-radius:8px;">
+                </div>
+            </div>
+
+            <div class="tx-list" id="cd-tx-list"></div>
         </div>
 
-        <div id="clients-container"></div>
+        <div class="bottom-bar">
+            <div class="bb-total"><span id="cd-total-due">0</span> ج.م</div>
+            <div style="font-weight: 800; font-size: 18px;">المطلوب سداده:</div>
+        </div>
     </div>
 
-    <div id="invoice-template"></div>
+    <div id="invoice-template" style="display:none;"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // إعدادات Firebase الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyAUj_rV2wOr34kfzF7wj3j-33rq6KD2gTg",
             authDomain: "khaled-eb11f.firebaseapp.com",
@@ -200,173 +163,149 @@
             storageBucket: "khaled-eb11f.firebasestorage.app",
             messagingSenderId: "313117586245",
             appId: "1:313117586245:web:989e2d45c3d1cd83f7c42c",
-            measurementId: "G-83QXDTRRJP",
             databaseURL: "https://khaled-eb11f-default-rtdb.firebaseio.com"
         };
 
-        let db, appData = {};
+        let db, appData = {}, currentClientId = null;
 
         window.onload = function() {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             db = firebase.database();
-            
-            // تحميل البيانات مباشرة بدون تسجيل دخول
-            db.ref('shop_clients').on('value', renderClients);
+            db.ref('shop_clients_final').on('value', snap => {
+                appData = snap.val() || {};
+                renderDashboard();
+                if(currentClientId && appData[currentClientId]) renderClientDetails(currentClientId);
+            });
         };
 
-        function renderClients(snap) {
-            appData = snap.val() || {};
-            const container = document.getElementById('clients-container');
+        function calcBalance(txs) {
+            let total = 0;
+            if(txs) Object.values(txs).forEach(tx => {
+                if(tx.type === 'item') total += (Number(tx.price) * Number(tx.qty));
+                else total -= Number(tx.amount);
+            });
+            return total;
+        }
+
+        function renderDashboard() {
+            const list = document.getElementById('client-list');
+            list.innerHTML = '';
             let globalTotal = 0;
-            container.innerHTML = '';
-
-            if (Object.keys(appData).length === 0) {
-                container.innerHTML = "<p style='text-align:center; color:var(--text-muted); font-weight:bold; margin-top:30px;'>لا توجد حسابات مسجلة حالياً. ابدأ بإضافة عميل جديد.</p>";
-                document.getElementById('global-total').innerText = "0";
-                return;
-            }
-
-            // عرض العملاء من الأحدث للأقدم
             Object.keys(appData).reverse().forEach(uid => {
                 const client = appData[uid];
-                let clientTotal = 0;
-                let itemsHTML = '';
-
-                if(client.items) {
-                    Object.keys(client.items).forEach(iid => {
-                        const item = client.items[iid];
-                        const price = Number(item.price) || 0;
-                        clientTotal += price;
-                        
-                        itemsHTML += `
-                            <div class="row-item">
-                                <input type="text" class="desc-input" value="${item.desc || ''}" placeholder="صنف / صيانة / مسحوبات..." onchange="updateItem('${uid}', '${iid}', 'desc', this.value)">
-                                <input type="number" class="price-input" value="${item.price !== undefined ? item.price : ''}" placeholder="السعر" onchange="updateItem('${uid}', '${iid}', 'price', this.value)">
-                                <span style="font-weight:bold; color:var(--primary); margin-left:10px;">ج.م</span>
-                                <button class="row-del" onclick="delItem('${uid}', '${iid}')" title="مسح الصنف">×</button>
-                            </div>
-                        `;
-                    });
-                }
-                globalTotal += clientTotal;
-
-                const card = document.createElement('div');
-                card.className = 'client-card';
-                card.innerHTML = `
-                    <div class="client-header">
-                        <div class="client-info">
-                            <input type="text" class="client-name-input" value="${client.name || ''}" placeholder="اسم العميل" onchange="db.ref('shop_clients/${uid}').update({name: this.value})">
-                            <input type="text" class="client-phone-input" value="${client.phone || ''}" placeholder="رقم التليفون 📱" onchange="db.ref('shop_clients/${uid}').update({phone: this.value})">
-                        </div>
-                        <div class="action-buttons">
-                            <button class="icon-btn btn-pdf" onclick="generatePDF('${uid}')" title="طباعة فاتورة">🖨️</button>
-                            <button class="icon-btn btn-del" onclick="deleteClient('${uid}')" title="حذف العميل نهائياً">🗑️</button>
-                        </div>
-                    </div>
-                    <div class="items-list">${itemsHTML}</div>
-                    <div class="card-footer">
-                        <button class="add-row-btn" onclick="addItem('${uid}')">+ إضافة صنف جديد</button>
-                        <div class="total-amount">الحساب: <span>${clientTotal}</span> ج.م</div>
-                    </div>
+                const bal = calcBalance(client.transactions);
+                globalTotal += bal;
+                const div = document.createElement('div');
+                div.className = 'client-item';
+                div.onclick = () => openClientDetails(uid);
+                div.innerHTML = `
+                    <div class="cli-balance">ج <b>${bal}</b></div>
+                    <div class="cli-info"><h3>${client.name}</h3><p>${client.phone || 'بدون رقم'}</p></div>
                 `;
-                container.appendChild(card);
+                list.appendChild(div);
             });
-            
             document.getElementById('global-total').innerText = globalTotal;
-            filterClients(); // تطبيق الفلتر لو كان اليوزر بيبحث
         }
 
-        // عمليات الفايربيز
-        const createNewClient = () => {
-            db.ref('shop_clients').push().set({ name: "", phone: "", items: {} });
-            document.getElementById('search').value = "";
-        };
-        const deleteClient = (uid) => confirm("هل أنت متأكد من حذف العميل وحسابه بالكامل؟") ? db.ref(`shop_clients/${uid}`).remove() : null;
-        const addItem = (uid) => db.ref(`shop_clients/${uid}/items`).push().set({ desc: "", price: "" });
-        const updateItem = (uid, iid, field, val) => db.ref(`shop_clients/${uid}/items/${iid}`).update({ [field]: val });
-        const delItem = (uid, iid) => db.ref(`shop_clients/${uid}/items/${iid}`).remove();
-
-        // فلترة البحث بالاسم أو التليفون
-        function filterClients() {
-            const q = document.getElementById('search').value.toLowerCase();
-            document.querySelectorAll('.client-card').forEach(card => {
-                const name = card.querySelector('.client-name-input').value.toLowerCase();
-                const phone = card.querySelector('.client-phone-input').value.toLowerCase();
-                if(name.includes(q) || phone.includes(q)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+        function addClient() {
+            const name = document.getElementById('new-client-name').value.trim();
+            if(!name) return alert("⚠️ لازم تكتب اسم العميل!");
+            db.ref('shop_clients_final').push().set({
+                name: name, phone: document.getElementById('new-client-phone').value, created_at: Date.now()
             });
+            document.getElementById('new-client-name').value = '';
+            document.getElementById('new-client-phone').value = '';
         }
 
-        // --- دالة الفاتورة الـ PDF الفخمة ---
-        function generatePDF(uid) {
-            const client = appData[uid];
-            if (!client) return;
+        function openClientDetails(uid) {
+            currentClientId = uid;
+            document.getElementById('main-view').style.display = 'none';
+            document.getElementById('client-details-view').style.display = 'block';
+            renderClientDetails(uid);
+        }
 
-            let total = 0;
-            let rows = '';
-            
-            if(client.items) {
-                Object.values(client.items).forEach(item => {
-                    const price = Number(item.price) || 0;
-                    total += price;
-                    if(item.desc || price > 0) {
-                        rows += `<tr><td>${price} ج.م</td><td>${item.desc || 'بدون بيان'}</td></tr>`;
-                    }
+        function closeClientDetails() {
+            currentClientId = null;
+            document.getElementById('client-details-view').style.display = 'none';
+            document.getElementById('main-view').style.display = 'block';
+        }
+
+        function renderClientDetails(uid) {
+            const client = appData[uid];
+            document.getElementById('cd-name').innerText = client.name;
+            const txList = document.getElementById('cd-tx-list');
+            txList.innerHTML = '';
+            if(client.transactions) {
+                Object.keys(client.transactions).reverse().forEach(tid => {
+                    const tx = client.transactions[tid];
+                    const div = document.createElement('div');
+                    div.className = `tx-item ${tx.type === 'item' ? 'is-debt' : 'is-pay'}`;
+                    div.innerHTML = `
+                        <div style="font-weight:900; font-size:18px; color:${tx.type === 'item' ? '#3E2723' : '#1B5E20'}">
+                            ${tx.type === 'item' ? (tx.price*tx.qty) : '- '+tx.amount} ج
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:bold;">${tx.type === 'item' ? tx.desc : 'دفعة مسددة ✅'}</div>
+                            <div style="font-size:12px; color:#777;">${new Date(tx.timestamp).toLocaleDateString('ar-EG')}</div>
+                        </div>
+                        <button onclick="deleteTx('${uid}','${tid}')" style="background:none; border:none; color:red; cursor:pointer;">❌</button>
+                    `;
+                    txList.appendChild(div);
                 });
             }
+            document.getElementById('cd-total-due').innerText = calcBalance(client.transactions);
+        }
 
-            const dateStr = new Date().toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            const phoneText = client.phone ? client.phone : 'غير مسجل';
-            const nameText = client.name ? client.name : 'عميل نقدي';
-            
-            // تركيب قالب الفاتورة
-            const printHTML = `
-                <div class="print-view">
-                    <div class="print-header">
-                        <svg viewBox="0 0 24 24"><path d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-4 20c-.83 0-1.5-.67-1.5-1.5S11.17 18 12 18s1.5.67 1.5 1.5S12.83 21 12 21zm3.5-4H8.5V4h7v13z"/></svg>
-                        <h1>الصيني للهواتف المحمولة</h1>
-                        <p>تاريخ الإصدار: ${dateStr}</p>
-                    </div>
-                    
-                    <div class="print-client-info">
-                        <h3>فاتورة حساب السيد/ة: ${nameText}</h3>
-                        <p>رقم الهاتف: <span dir="ltr">${phoneText}</span></p>
-                    </div>
+        function saveItem() {
+            const d = document.getElementById('item-desc').value, q = document.getElementById('item-qty').value, p = document.getElementById('item-price').value;
+            if(!d || !q || !p) return alert("كمل البيانات!");
+            db.ref(`shop_clients_final/${currentClientId}/transactions`).push().set({ type:'item', desc:d, qty:q, price:p, timestamp:Date.now() });
+            document.getElementById('item-desc').value=''; document.getElementById('item-price').value='';
+        }
 
-                    <table class="print-table">
-                        <thead><tr><th style="width:25%;">المبلغ</th><th>البيان (مسحوبات / صيانة)</th></tr></thead>
-                        <tbody>${rows || '<tr><td colspan="2" style="text-align:center;">لا توجد أصناف مسجلة</td></tr>'}</tbody>
-                    </table>
+        function savePayment() {
+            const a = document.getElementById('pay-amount').value;
+            if(!a || a<=0) return alert("أدخل المبلغ!");
+            db.ref(`shop_clients_final/${currentClientId}/transactions`).push().set({ type:'pay', amount:a, timestamp:Date.now() });
+            document.getElementById('pay-amount').value='';
+        }
 
-                    <div style="overflow: hidden; margin-top: 20px;">
-                        <div class="print-total-box">الإجمالي الكلي: ${total} ج.م</div>
-                    </div>
+        function deleteTx(uid, tid) { if(confirm("حذف؟")) db.ref(`shop_clients_final/${uid}/transactions/${tid}`).remove(); }
+        function deleteCurrentClient() { if(confirm("مسح العميل نهائياً؟")) db.ref(`shop_clients_final/${currentClientId}`).remove(); }
 
-                    <div class="print-footer">
-                        <p>شكراً لثقتكم في الصيني للهواتف المحمولة والإلكترونيات</p>
-                    </div>
+        function printInvoice() {
+            const client = appData[currentClientId];
+            let rows = '';
+            if(client.transactions) Object.values(client.transactions).forEach(tx => {
+                rows += `<tr>
+                    <td>${tx.type==='item' ? (tx.price*tx.qty)+' ج' : tx.amount+' ج-'}</td>
+                    <td>${tx.type==='item' ? tx.qty+' x '+tx.price : '-'}</td>
+                    <td>${new Date(tx.timestamp).toLocaleDateString('ar-EG')}</td>
+                    <td>${tx.type==='item' ? tx.desc : 'سداد نقدية'}</td>
+                </tr>`;
+            });
+
+            const html = `<div class="pdf-page">
+                <div class="pdf-header"><h1>محلات الصيني</h1><p>كشف حساب عميل</p></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <div>التاريخ: ${new Date().toLocaleDateString('ar-EG')}</div>
+                    <div>العميل: ${client.name}</div>
                 </div>
-            `;
+                <table style="width:100%; border-collapse:collapse;" border="1">
+                    <thead><tr><th>الإجمالي</th><th>السعر والعدد</th><th>التاريخ</th><th>البيان</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
+                <div class="pdf-total-box">المطلوب سداده: ${calcBalance(client.transactions)} ج.م</div>
+            </div>`;
+            const el = document.getElementById('invoice-template');
+            el.innerHTML = html; el.style.display='block';
+            html2pdf().from(el).save(`الصيني_${client.name}.pdf`).then(()=>el.style.display='none');
+        }
 
-            const element = document.getElementById('invoice-template');
-            element.innerHTML = printHTML;
-            element.style.display = 'block';
-
-            // إعدادات التصدير بصيغة PDF بجودة عالية
-            const opt = {
-                margin:       10,
-                filename:     `فاتورة_الصيني_${nameText}.pdf`,
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            // تحويل وتحميل
-            html2pdf().set(opt).from(element).save().then(() => {
-                element.style.display = 'none'; 
+        function filterClients() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.client-item').forEach(el => {
+                el.style.display = el.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
             });
         }
     </script>
